@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="module" src="src/main.js"></script>
+        <style>
+            body{
+                display: grid;
+                grid-template-columns: repeat(auto-fill, 200px);
+                grid-gap: 1.5rem;
+            }
+        </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', (e) => {
+                
+                const _aTimingsNew = [];
+                const _aTimingsOld = [];
+
+                const _aButtons = [`<smurf-button>Smurfic button</smurf-button>`, 
+                `<smurf-button-oldstyle>Smurfic button </smurf-button-oldstyle>`];
+
+                for(let _j = 0, _nBound = 100; _j <= _nBound; _j++){
+                    let _sHTML = '';
+                    for(let _i = 0, _nBound = 1000; _i <= _nBound; _i++){
+                        _sHTML += _aButtons[0];
+                    }
+                    performance.mark('New Start');
+                    document.body.innerHTML = _sHTML;
+                }
+                
+                
+
+                for(let _j = 0, _nBound = 100; _j <= _nBound; _j++){
+                    let _sHTML = '';
+                    for(let _i = 0, _nBound = 1000; _i < _nBound; _i++){
+                        _sHTML += _aButtons[1];
+                    }
+                    performance.mark('Old Start');
+                    document.body.innerHTML = _sHTML;
+                }
+                
+
+                setTimeout(() => {
+                    console.log('Result: ');
+                    console.log('-------------------');
+                    console.log('Number repeat: 100');
+                    console.log('Number custom elements : 1000');
+                    console.log('-------------------------------');
+                    const _aMeasuresNew = performance.getEntriesByName('New');
+                    const _aDurationNew = _aMeasuresNew.map(measure => measure.duration);
+                    const _nTotalTimeNew = _aDurationNew.reduce((accumVariable, curValue) => accumVariable + curValue, 0);
+                    const _nAverageNew = _nTotalTimeNew/_aDurationNew.length;
+                    console.log('Constructible stylesheet: ', _nAverageNew + 'ms');
+
+                    const _aMeasuresOld = performance.getEntriesByName('Old');
+                    const _aDurationOld = _aMeasuresOld.map(measure => measure.duration);
+                    const _nTotalTimeOld = _aDurationOld.reduce((accumVariable, curValue) => accumVariable + curValue, 0);
+                    const _nAverageOld = _nTotalTimeOld/_aDurationOld.length;
+                    console.log('With own style element: ', _nAverageOld + 'ms');
+                }, 3000);
+               
+            });
+        </script>
+    </head>
+    <body>
+        
+        <smurf-button>Smurfic button</smurf-button>
+        <smurf-button>Smurfic button</smurf-button>
+        <smurf-button>Smurfic button</smurf-button>
+
+    </body>
+</html>
