@@ -5,51 +5,38 @@
     {
       "kind": "javascript-module",
       "path": "src/main.js",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "whenDefined"
-        }
-      ],
+      "declarations": [],
       "exports": [
         {
           "kind": "js",
-          "name": "whenDefined",
+          "name": "*",
           "declaration": {
-            "name": "whenDefined",
-            "module": "src/main.js"
+            "name": "*",
+            "package": "./base/main.js"
           }
         },
         {
           "kind": "js",
-          "name": "base",
+          "name": "*",
           "declaration": {
-            "name": "base",
-            "module": "src/main.js"
+            "name": "*",
+            "package": "./input/main.js"
           }
         },
         {
           "kind": "js",
-          "name": "input",
+          "name": "*",
           "declaration": {
-            "name": "input",
-            "module": "src/main.js"
+            "name": "*",
+            "package": "./atoms/button/main.js"
           }
         },
         {
           "kind": "js",
-          "name": "button",
+          "name": "*",
           "declaration": {
-            "name": "button",
-            "module": "src/main.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "inputText",
-          "declaration": {
-            "name": "inputText",
-            "module": "src/main.js"
+            "name": "*",
+            "package": "./atoms/input-text/main.js"
           }
         }
       ]
@@ -59,6 +46,29 @@
       "path": "src/properties.js",
       "declarations": [],
       "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/styles.js",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "button",
+          "default": "_button",
+          "description": "The button styling module",
+          "privacy": "public"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "button",
+          "declaration": {
+            "name": "button",
+            "module": "src/styles.js"
+          }
+        }
+      ]
     },
     {
       "kind": "javascript-module",
@@ -76,6 +86,7 @@
             },
             {
               "name": "cls",
+              "description": "The Class for defining the custom element",
               "type": {
                 "text": "Object"
               }
@@ -90,11 +101,12 @@
             "type": {
               "text": "Promise<CustomElementConstructor>"
             }
-          }
+          },
+          "privacy": "public"
         },
         {
           "kind": "function",
-          "name": "getTemplateContent",
+          "name": "getStyle",
           "parameters": [
             {
               "name": "tagname",
@@ -105,13 +117,14 @@
           ],
           "return": {
             "type": {
-              "text": "DocumentFragment"
+              "text": "Array<CSSStyleSheet>|Array<string>"
             }
-          }
+          },
+          "privacy": "public"
         },
         {
           "kind": "function",
-          "name": "registerTemplateContent",
+          "name": "registerStyle",
           "parameters": [
             {
               "name": "tagname",
@@ -120,7 +133,14 @@
               }
             },
             {
-              "name": "html",
+              "name": "style",
+              "type": {
+                "text": "!string"
+              }
+            },
+            {
+              "name": "tagnameExtending",
+              "default": "''",
               "optional": true,
               "type": {
                 "text": "string"
@@ -129,7 +149,7 @@
           ],
           "return": {
             "type": {
-              "text": "DocumentFragment"
+              "text": "Array<CSSStyleSheet>|Array<string>"
             }
           }
         },
@@ -138,37 +158,33 @@
           "name": "generateTemplate",
           "parameters": [
             {
-              "name": "{tagname, classes = '', content = ''}"
+              "name": "props",
+              "default": "{}"
             },
             {
               "name": "param",
               "type": {
-                "text": "Objetc"
+                "text": "@param {!string} param.tagname \r\n * @param {!string} [param.content='']\r\n * "
               }
             },
             {
-              "name": "param.tagname",
+              "name": "",
               "type": {
-                "text": "!string"
-              }
-            },
-            {
-              "name": "param.content",
-              "type": {
-                "text": "!string"
+                "text": "Array<string>|Array<CSSStyleSheet>"
               }
             },
             {
               "name": "param.classes",
               "optional": true,
               "type": {
-                "text": "string"
+                "text": "string|Array<string>"
               }
             }
           ],
+          "description": "When the constructable stylesheets are not supported, the styles are injected into the generated template.",
           "return": {
             "type": {
-              "text": "string"
+              "text": "DocumentFragment"
             }
           }
         },
@@ -179,7 +195,7 @@
             {
               "name": "selector",
               "type": {
-                "text": "string"
+                "text": "!string"
               }
             },
             {
@@ -196,7 +212,8 @@
             "type": {
               "text": "Promise<HTMLElement>"
             }
-          }
+          },
+          "privacy": "public"
         },
         {
           "kind": "function",
@@ -205,13 +222,13 @@
             {
               "name": "target",
               "type": {
-                "text": "HTMLElement"
+                "text": "!HTMLElement"
               }
             },
             {
               "name": "attribute",
               "type": {
-                "text": "string"
+                "text": "!string"
               }
             },
             {
@@ -222,7 +239,68 @@
               }
             }
           ],
-          "description": "Sets or removes value based on the value"
+          "description": "Sets or removes value based on the value",
+          "privacy": "public",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          }
+        },
+        {
+          "kind": "function",
+          "name": "removeComments",
+          "parameters": [
+            {
+              "name": "value",
+              "type": {
+                "text": "!string"
+              }
+            }
+          ],
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "privacy": "public"
+        },
+        {
+          "kind": "function",
+          "name": "html",
+          "parameters": [
+            {
+              "name": "s",
+              "description": "valid HTML syntax, a single parent element.",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "return": {
+            "type": {
+              "text": "HTMLElement"
+            }
+          }
+        },
+        {
+          "kind": "function",
+          "name": "htmlFromStoryProps",
+          "parameters": [
+            {
+              "name": "tagname",
+              "type": {
+                "text": "!string"
+              }
+            },
+            {
+              "name": "props",
+              "default": "{}",
+              "type": {
+                "text": "Object"
+              }
+            }
+          ]
         }
       ],
       "exports": [
@@ -244,17 +322,17 @@
         },
         {
           "kind": "js",
-          "name": "getTemplateContent",
+          "name": "getStyle",
           "declaration": {
-            "name": "getTemplateContent",
+            "name": "getStyle",
             "module": "src/toolbox.js"
           }
         },
         {
           "kind": "js",
-          "name": "registerTemplateContent",
+          "name": "registerStyle",
           "declaration": {
-            "name": "registerTemplateContent",
+            "name": "registerStyle",
             "module": "src/toolbox.js"
           }
         },
@@ -281,6 +359,30 @@
             "name": "setBooleanAttribute",
             "module": "src/toolbox.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "removeComments",
+          "declaration": {
+            "name": "removeComments",
+            "module": "src/toolbox.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "html",
+          "declaration": {
+            "name": "html",
+            "module": "src/toolbox.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "htmlFromStoryProps",
+          "declaration": {
+            "name": "htmlFromStoryProps",
+            "module": "src/toolbox.js"
+          }
         }
       ]
     },
@@ -288,154 +390,12 @@
       "kind": "javascript-module",
       "path": "src/typedefs.js",
       "declarations": [],
-      "exports": []
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/input/main.js",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "VALIDITY_STATE_FLAGS",
-          "type": {
-            "text": "object"
-          },
-          "default": "{\r\n   valueMissing: false,\r\n   typeMismatch: false,\r\n   patternMismatch: false,\r\n   tooLong: false,\r\n   tooShort: false,\r\n   rangeUnderflow: false,\r\n   rangeOverflow: false,\r\n   stepMismatch: false,\r\n   badInput: false,\r\n   customError: false\r\n}",
-          "privacy": "public"
-        },
-        {
-          "kind": "variable",
-          "name": "TAGNAME",
-          "privacy": "public"
-        },
-        {
-          "kind": "variable",
-          "name": "TEMPLATE",
-          "default": "template",
-          "privacy": "public"
-        },
-        {
-          "kind": "class",
-          "description": "The main class for the Smurfic input elements",
-          "name": "MyClass",
-          "members": [
-            {
-              "kind": "field",
-              "name": "formAssociated",
-              "static": true,
-              "return": {
-                "type": {
-                  "text": "boolean"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "_input_handleSettings",
-              "parameters": [
-                {
-                  "name": "settings",
-                  "default": "{}"
-                }
-              ]
-            },
-            {
-              "kind": "field",
-              "name": "_internals"
-            },
-            {
-              "kind": "field",
-              "name": "_input_oSettings"
-            }
-          ],
-          "superclass": {
-            "module": "src/input/main.js"
-          }
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "VALIDITY_STATE_FLAGS",
-          "declaration": {
-            "name": "VALIDITY_STATE_FLAGS",
-            "module": "src/input/main.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "TAGNAME",
-          "declaration": {
-            "name": "TAGNAME",
-            "module": "src/input/main.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "TEMPLATE",
-          "declaration": {
-            "name": "TEMPLATE",
-            "module": "src/input/main.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "MyClass",
-          "declaration": {
-            "name": "MyClass",
-            "module": "src/input/main.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/input/style.js",
-      "declarations": [],
       "exports": [
         {
           "kind": "js",
           "name": "default",
           "declaration": {
-            "module": "src/input/style.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/input/template.js",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/input/template.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/input/_config.js",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "TAGNAME",
-          "type": {
-            "text": "string"
-          },
-          "default": "'smurf-input'"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "TAGNAME",
-          "declaration": {
-            "name": "TAGNAME",
-            "module": "src/input/_config.js"
+            "module": "src/typedefs.js"
           }
         }
       ]
@@ -450,16 +410,24 @@
           "privacy": "public"
         },
         {
-          "kind": "variable",
-          "name": "TEMPLATE",
-          "default": "template",
-          "privacy": "public"
-        },
-        {
           "kind": "class",
           "description": "The main class for the Smurfic elements",
           "name": "MyClass",
           "members": [
+            {
+              "kind": "method",
+              "name": "#init",
+              "parameters": [
+                {
+                  "name": "props",
+                  "default": "{}",
+                  "type": {
+                    "text": "SMURF_BASE_SETTINGS"
+                  }
+                }
+              ],
+              "privacy": "private"
+            },
             {
               "kind": "method",
               "name": "_getElement",
@@ -467,12 +435,16 @@
                 {
                   "name": "selector",
                   "type": {
-                    "text": "string"
+                    "text": "!string"
                   }
                 },
                 {
                   "name": "parent",
-                  "default": "this.shadowRoot"
+                  "default": "this.shadowRoot",
+                  "optional": true,
+                  "type": {
+                    "text": "HTMLElement"
+                  }
                 }
               ],
               "return": {
@@ -483,22 +455,36 @@
             },
             {
               "kind": "field",
-              "name": "_base_sheet",
-              "privacy": "private",
-              "default": "new CSSStyleSheet()"
-            },
-            {
-              "kind": "field",
-              "name": "adoptedStyleSheets",
+              "name": "disabled",
               "type": {
-                "text": "array"
+                "text": "boolean"
               },
-              "default": "[this._base_sheet]"
+              "attribute": "disabled",
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
             }
           ],
           "attributes": [
             {
-              "name": "disabled"
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "disabled",
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
             }
           ],
           "superclass": {
@@ -518,14 +504,6 @@
         },
         {
           "kind": "js",
-          "name": "TEMPLATE",
-          "declaration": {
-            "name": "TEMPLATE",
-            "module": "src/base/main.js"
-          }
-        },
-        {
-          "kind": "js",
           "name": "MyClass",
           "declaration": {
             "name": "MyClass",
@@ -536,43 +514,114 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/base/style.js",
+      "path": "src/base/main.style.js",
       "declarations": [],
       "exports": [
         {
           "kind": "js",
           "name": "default",
           "declaration": {
-            "module": "src/base/style.js"
+            "module": "src/base/main.style.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/base/template.js",
+      "path": "src/base/main.template.js",
       "declarations": [],
       "exports": [
         {
           "kind": "js",
           "name": "default",
           "declaration": {
-            "module": "src/base/template.js"
+            "module": "src/base/main.template.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/base/_config.js",
+      "path": "src/input/main.js",
       "declarations": [
         {
           "kind": "variable",
-          "name": "TAGNAME",
+          "name": "VALIDITY_STATE_FLAGS",
           "type": {
-            "text": "string"
+            "text": "SMURF_VALIDITY_STATE_FLAGS"
           },
-          "default": "'smurf-base'"
+          "default": "{\r\n   valueMissing: false,\r\n   typeMismatch: false,\r\n   patternMismatch: false,\r\n   tooLong: false,\r\n   tooShort: false,\r\n   rangeUnderflow: false,\r\n   rangeOverflow: false,\r\n   stepMismatch: false,\r\n   badInput: false,\r\n   customError: false\r\n}",
+          "privacy": "public"
+        },
+        {
+          "kind": "class",
+          "description": "The main class for the Smurfic input elements",
+          "name": "MyClass",
+          "members": [
+            {
+              "kind": "method",
+              "name": "#init",
+              "parameters": [
+                {
+                  "name": "props",
+                  "default": "{}",
+                  "type": {
+                    "text": "SMURF_BASE_SETTINGS & SMURF_INPUT_SETTINGS"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "static": true,
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "value"
+            },
+            {
+              "kind": "field",
+              "name": "form"
+            },
+            {
+              "kind": "field",
+              "name": "name"
+            },
+            {
+              "kind": "field",
+              "name": "type"
+            },
+            {
+              "kind": "field",
+              "name": "validity"
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage"
+            },
+            {
+              "kind": "field",
+              "name": "willValidate"
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity"
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity"
+            }
+          ],
+          "superclass": {
+            "name": "SUPERCLASS",
+            "module": "/src/input/main.config.js"
+          }
         }
       ],
       "exports": [
@@ -581,7 +630,51 @@
           "name": "TAGNAME",
           "declaration": {
             "name": "TAGNAME",
-            "module": "src/base/_config.js"
+            "module": "./main.config.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "VALIDITY_STATE_FLAGS",
+          "declaration": {
+            "name": "VALIDITY_STATE_FLAGS",
+            "module": "src/input/main.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "MyClass",
+          "declaration": {
+            "name": "MyClass",
+            "module": "src/input/main.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/input/main.style.js",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/input/main.style.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/input/main.template.js",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/input/main.template.js"
           }
         }
       ]
@@ -589,13 +682,56 @@
     {
       "kind": "javascript-module",
       "path": "src/styles/button-core.js",
-      "declarations": [],
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "CLASS_BUTTON",
+          "type": {
+            "text": "string"
+          },
+          "default": "'pure-button'",
+          "description": "To be used on the element to style it as a button.",
+          "privacy": "public"
+        },
+        {
+          "kind": "variable",
+          "name": "CLASS_BUTTON_GROUP",
+          "type": {
+            "text": "string"
+          },
+          "default": "'pure-button-group'",
+          "description": "To be used on the element parent to group buttons.",
+          "privacy": "public"
+        },
+        {
+          "kind": "variable",
+          "name": "RULES",
+          "default": "`\r\n    .${CLASS_BUTTON} {\r\n        display: inline-block;\r\n        line-height: normal;\r\n        white-space: nowrap;\r\n        vertical-align: middle;\r\n        text-align: center;\r\n        cursor: pointer;\r\n        -webkit-user-drag: none;\r\n        user-select: none;\r\n        box-sizing: border-box;\r\n    }\r\n\r\n    /* Firefox: Get rid of the inner focus border */\r\n    .${CLASS_BUTTON}::-moz-focus-inner {\r\n        padding: 0;\r\n        border: 0;\r\n    }\r\n\r\n    /* Inherit .pure-g styles */\r\n    .${CLASS_BUTTON_GROUP} {\r\n        letter-spacing: -0.31em; /* Webkit: collapse white-space between units */\r\n        text-rendering: optimizespeed; /* Webkit: fixes text-rendering: optimizeLegibility */\r\n    }\r\n\r\n    .opera-only :-o-prefocus,\r\n    .${CLASS_BUTTON}CLASS_BUTTON {\r\n        word-spacing: -0.43em;\r\n    }\r\n\r\n    .${CLASS_BUTTON_GROUP} .${CLASS_BUTTON} {\r\n        letter-spacing: normal;\r\n        word-spacing: normal;\r\n        vertical-align: top;\r\n        text-rendering: auto;\r\n    }`",
+          "privacy": "public"
+        }
+      ],
       "exports": [
         {
           "kind": "js",
-          "name": "default",
+          "name": "CLASS_BUTTON",
           "declaration": {
-            "name": "\n.pure-button {\n    /* Structure */\n    display: inline-block;\n    line-height: normal;\n    white-space: nowrap;\n    vertical-align: middle;\n    text-align: center;\n    cursor: pointer;\n    -webkit-user-drag: none;\n    user-select: none;\n    box-sizing: border-box;\n}\n\n/* Firefox: Get rid of the inner focus border */\n.pure-button::-moz-focus-inner {\n    padding: 0;\n    border: 0;\n}\n\n/* Inherit .pure-g styles */\n.pure-button-group {\n    letter-spacing: -0.31em; /* Webkit: collapse white-space between units */\n    text-rendering: optimizespeed; /* Webkit: fixes text-rendering: optimizeLegibility */\n}\n\n.opera-only :-o-prefocus,\n.pure-button-group {\n    word-spacing: -0.43em;\n}\n\n.pure-button-group .pure-button {\n    letter-spacing: normal;\n    word-spacing: normal;\n    vertical-align: top;\n    text-rendering: auto;\n}\n",
+            "name": "CLASS_BUTTON",
+            "module": "src/styles/button-core.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CLASS_BUTTON_GROUP",
+          "declaration": {
+            "name": "CLASS_BUTTON_GROUP",
+            "module": "src/styles/button-core.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RULES",
+          "declaration": {
+            "name": "RULES",
             "module": "src/styles/button-core.js"
           }
         }
@@ -604,13 +740,64 @@
     {
       "kind": "javascript-module",
       "path": "src/styles/button.js",
-      "declarations": [],
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "CLASS_BUTTON",
+          "description": "To be used on the element to style it as a button.",
+          "privacy": "public"
+        },
+        {
+          "kind": "variable",
+          "name": "CLASS_BUTTON_GROUP",
+          "description": "To be used on the element parent to group buttons.",
+          "privacy": "public"
+        },
+        {
+          "kind": "variable",
+          "name": "VARS",
+          "default": "`\r\n    --${CLASS_BUTTON}-color: rgba(0, 0, 0, 0.80);\r\n    --${CLASS_BUTTON}-border: none rgba(0, 0, 0, 0);\r\n    --${CLASS_BUTTON}-background-image: none;\r\n    --${CLASS_BUTTON}-background-color: #E6E6E6;`",
+          "description": "The CSS vars to register for the button component",
+          "privacy": "public"
+        },
+        {
+          "kind": "variable",
+          "name": "RULES",
+          "default": "`\r\n    :root{\r\n        /* ccs vars here, todo register globally */\r\n        ${VARS}\r\n    }\r\n    .${CLASS_BUTTON} {\r\n        font-family: inherit;\r\n        font-size: 100%;\r\n        padding: 0.5em 1em;\r\n        color: rgba(0, 0, 0, 0.80);\r\n        border: none rgba(0, 0, 0, 0);\r\n        background-color: #E6E6E6;\r\n        text-decoration: none;\r\n        border-radius: 2px;\r\n    }\r\n\r\n    .pure-button-hover,\r\n    .${CLASS_BUTTON}:hover,\r\n    .${CLASS_BUTTON}:focus {\r\n        background-image: linear-gradient(transparent, rgba(0,0,0, 0.05) 40%, rgba(0,0,0, 0.10));\r\n    }\r\n    \r\n    .${CLASS_BUTTON}:focus {\r\n        outline: 0;\r\n    }\r\n    .pure-button-active,\r\n    .${CLASS_BUTTON}:active {\r\n        box-shadow: 0 0 0 1px rgba(0,0,0, 0.15) inset, 0 0 6px rgba(0,0,0, 0.20) inset;\r\n        border-color: #000;\r\n    }\r\n\r\n    :host([disabled]) .${CLASS_BUTTON},\r\n    .${CLASS_BUTTON}[disabled],\r\n    .pure-button-disabled,\r\n    .pure-button-disabled:hover,\r\n    .pure-button-disabled:focus,\r\n    .pure-button-disabled:active {\r\n        border: none;\r\n        background-image: none;\r\n        opacity: 0.40;\r\n        cursor: not-allowed;\r\n        box-shadow: none;\r\n        pointer-events: none;\r\n    }\r\n\r\n    .pure-button-hidden {\r\n        display: none;\r\n    }\r\n\r\n    :host([primary]) .${CLASS_BUTTON},\r\n    .pure-button-primary,\r\n    .pure-button-selected,\r\n    a.pure-button-primary,\r\n    a.pure-button-selected {\r\n        background-color: rgb(0, 120, 231);\r\n        color: #fff;\r\n    }\r\n\r\n    /* Button Groups */\r\n    .--${CLASS_BUTTON_GROUP} .${CLASS_BUTTON} {\r\n        margin: 0;\r\n        border-radius: 0;\r\n        border-right: 1px solid rgba(0, 0, 0, 0.2);\r\n    }\r\n\r\n    .--${CLASS_BUTTON_GROUP} .${CLASS_BUTTON}:first-child {\r\n        border-top-left-radius: 2px;\r\n        border-bottom-left-radius: 2px;\r\n    }\r\n    .--${CLASS_BUTTON_GROUP} .${CLASS_BUTTON}:last-child {\r\n        border-top-right-radius: 2px;\r\n        border-bottom-right-radius: 2px;\r\n        border-right: none;\r\n    }\r\n`",
+          "description": "The styling rules for the button component",
+          "privacy": "public"
+        }
+      ],
       "exports": [
         {
           "kind": "js",
-          "name": "default",
+          "name": "CLASS_BUTTON",
           "declaration": {
-            "name": "\n/*csslint outline-none:false*/\n\n.pure-button {\n    font-family: inherit;\n    font-size: 100%;\n    padding: 0.5em 1em;\n    color: rgba(0, 0, 0, 0.80);\n    border: none rgba(0, 0, 0, 0);\n    background-color: #E6E6E6;\n    text-decoration: none;\n    border-radius: 2px;\n}\n\n.pure-button-hover,\n.pure-button:hover,\n.pure-button:focus {\n    background-image: linear-gradient(transparent, rgba(0,0,0, 0.05) 40%, rgba(0,0,0, 0.10));\n}\n.pure-button:focus {\n    outline: 0;\n}\n.pure-button-active,\n.pure-button:active {\n    box-shadow: 0 0 0 1px rgba(0,0,0, 0.15) inset, 0 0 6px rgba(0,0,0, 0.20) inset;\n    border-color: #000;\n}\n\n:host([disabled]) .pure-button,\n.pure-button[disabled],\n.pure-button-disabled,\n.pure-button-disabled:hover,\n.pure-button-disabled:focus,\n.pure-button-disabled:active {\n    border: none;\n    background-image: none;\n    opacity: 0.40;\n    cursor: not-allowed;\n    box-shadow: none;\n    pointer-events: none;\n}\n\n.pure-button-hidden {\n    display: none;\n}\n\n:host([primary]) .pure-button,\n.pure-button-primary,\n.pure-button-selected,\na.pure-button-primary,\na.pure-button-selected {\n    background-color: rgb(0, 120, 231);\n    color: #fff;\n}\n\n/* Button Groups */\n.pure-button-group .pure-button {\n    margin: 0;\n    border-radius: 0;\n    border-right: 1px solid rgba(0, 0, 0, 0.2);\n\n}\n\n.pure-button-group .pure-button:first-child {\n    border-top-left-radius: 2px;\n    border-bottom-left-radius: 2px;\n}\n.pure-button-group .pure-button:last-child {\n    border-top-right-radius: 2px;\n    border-bottom-right-radius: 2px;\n    border-right: none;\n}\n",
+            "name": "CLASS_BUTTON",
+            "module": "src/styles/button.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CLASS_BUTTON_GROUP",
+          "declaration": {
+            "name": "CLASS_BUTTON_GROUP",
+            "module": "src/styles/button.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "VARS",
+          "declaration": {
+            "name": "VARS",
+            "module": "src/styles/button.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RULES",
+          "declaration": {
+            "name": "RULES",
             "module": "src/styles/button.js"
           }
         }
@@ -655,8 +842,22 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "\n\n/*\nBox-model set to false because we're setting a height on select elements, which\nalso have border and padding. This is done because some browsers don't render\nthe padding. We explicitly set the box-model for select elements to border-box,\nso we can ignore the csslint warning.\n*/\n\n.pure-form input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]),\n.pure-form select,\n.pure-form textarea {\n    padding: 0.5em 0.6em;\n    display: inline-block;\n    border: var(--smurf-input-border);\n    box-shadow: var(--smurf-input-box-shadow);\n    border-radius: 4px;\n    vertical-align: middle;\n    box-sizing: border-box;\n}\n\n.pure-form input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]):focus,\n.pure-form select:focus,\n.pure-form textarea:focus {\n    outline: 0;\n    border-color: var(--smurf-input-focus-border-color);\n}\n\n.pure-form input[type=\"file\"]:focus,\n.pure-form input[type=\"radio\"]:focus,\n.pure-form input[type=\"checkbox\"]:focus {\n    outline: thin var(--smurf-input-border-style) var(--smurf-input-focus-border-color);\n    outline: var(--smurf-input-border-width) auto var(--smurf-input-focus-border-color);\n}\n.pure-checkbox,\n.pure-radio{\n    margin: 0.5em 0;\n    display: block;\n}\n\n.pure-form input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"])[disabled],\n.pure-form select[disabled],\n.pure-form textarea[disabled] {\n    cursor: not-allowed;\n    background-color: var(--smurf-input-disabled-background-color);\n    color: var(--smurf-input-disabled-color);\n}\n\n.pure-form input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"])[readonly],\n.pure-form select[readonly],\n.pure-form textarea[readonly] {\n    background-color: var(--smurf-input-readonly-background-color); /* menu hover bg color */\n    color: var(--smurf-input-readonly-color); /* menu text color */\n    border-color: var(--smurf-input-readonly-border-color);\n}\n\n.pure-form input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]):focus:invalid,\n.pure-form textarea:focus:invalid,\n.pure-form select:focus:invalid {\n    color: var(--smurf-input-focus-invalid-color);\n    border-color: var(--smurf-input-focus-invalid-border-color);\n}\n.pure-form input[type=\"file\"]:focus:invalid:focus,\n.pure-form input[type=\"radio\"]:focus:invalid:focus,\n.pure-form input[type=\"checkbox\"]:focus:invalid:focus {\n    border-color: var(--smurf-input-focus-invalid-border-color);\n}\n.pure-form select {\n    /* Normalizes the height; padding is not sufficient. */\n    height: 2.25em;\n    border: var(--smurf-input-border);\n    background-color: var(--smurf-select-background-color);\n}\n.pure-form select[multiple] {\n    height: auto;\n}\n.pure-form label {\n    margin: 0.5em 0 0.2em;\n}\n.pure-form fieldset {\n    margin: 0;\n    padding: 0.35em 0 0.75em;\n    border: 0;\n}\n.pure-form legend {\n    display: block;\n    width: 100%;\n    padding: 0.3em 0;\n    margin-bottom: 0.3em;\n    color: var(--smurf-legend-color);\n    border-bottom: var(--smurf-legend-border);\n}\n\n.pure-form-stacked input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]),\n.pure-form-stacked select,\n.pure-form-stacked label,\n.pure-form-stacked textarea {\n    display: block;\n    margin: 0.25em 0;\n}\n\n.pure-form-aligned input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]),\n.pure-form-aligned textarea,\n.pure-form-aligned select,\n.pure-form-message-inline {\n    display: inline-block;\n    vertical-align: middle;\n}\n.pure-form-aligned textarea {\n    vertical-align: top;\n}\n\n/* Aligned Forms */\n.pure-form-aligned .pure-control-group {\n    margin-bottom: 0.5em;\n}\n.pure-form-aligned .pure-control-group label {\n    text-align: right;\n    display: inline-block;\n    vertical-align: middle;\n    width: 10em;\n    margin: 0 1em 0 0;\n}\n.pure-form-aligned .pure-controls {\n    margin: 1.5em 0 0 11em;\n}\n\n/* Rounded Inputs */\ninput:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]).pure-input-rounded,\n.pure-input-rounded {\n    border-radius: 2em;\n    padding: 0.5em 1em;\n}\n\n/* Grouped Inputs */\n.pure-group fieldset {\n    margin-bottom: 10px;\n}\n.pure-group input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]),\n.pure-group textarea {\n    display: block;\n    padding: 10px;\n    margin: 0 0 -1px;\n    border-radius: 0;\n    position: relative;\n    top: -1px;\n}\n.pure-group input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]):focus,\n.pure-group textarea:focus {\n    z-index: 3;\n}\n.pure-group input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]):first-child,\n.pure-group textarea:first-child {\n    top: 1px;\n    border-radius: 4px 4px 0 0;\n    margin: 0;\n}\n.pure-group input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]):first-child:last-child,\n.pure-group textarea:first-child:last-child {\n    top: 1px;\n    border-radius: 4px;\n    margin: 0;\n}\n.pure-group input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]):last-child,\n.pure-group textarea:last-child {\n    top: -2px;\n    border-radius: 0 0 4px 4px;\n    margin: 0;\n}\n.pure-group button {\n    margin: 0.35em 0;\n}\n\n.pure-input-1 {\n    width: 100%;\n}\n.pure-input-3-4 {\n    width: 75%;\n}\n.pure-input-2-3 {\n    width: 66%;\n}\n.pure-input-1-2 {\n    width: 50%;\n}\n.pure-input-1-3 {\n    width: 33%;\n}\n.pure-input-1-4 {\n    width: 25%;\n}\n\n/* Inline help for forms */\n.pure-form-message-inline {\n    display: inline-block;\n    padding-left: 0.3em;\n    color: var(--smurf-input-message-color);\n    vertical-align: middle;\n    font-size: 0.875em;\n}\n\n/* Block help for forms */\n.pure-form-message {\n    display: block;\n    color: var(--smurf-input-message-color);\n    font-size: 0.875em;\n}\n",
+            "name": "\n\n/*\nBox-model set to false because we're setting a height on select elements, which\nalso have border and padding. This is done because some browsers don't render\nthe padding. We explicitly set the box-model for select elements to border-box,\nso we can ignore the csslint warning.\n*/\n\n.pure-form input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]),\n.pure-form select,\n.pure-form textarea {\n    padding: 0.5em 0.6em;\n    display: inline-block;\n    border: var(--smurf-input-border);\n    box-shadow: var(--smurf-input-box-shadow);\n    border-radius: 4px;\n    vertical-align: middle;\n    box-sizing: border-box;\n}\n\n.pure-form input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]):focus,\n.pure-form select:focus,\n.pure-form textarea:focus {\n    outline: 0;\n    border-color: var(--smurf-input-focus-border-color);\n}\n\n.pure-form input[type=\"file\"]:focus,\n.pure-form input[type=\"radio\"]:focus,\n.pure-form smurf-input-radio:focus,\n.pure-form input[type=\"checkbox\"]:focus {\n    outline: thin var(--smurf-input-border-style) var(--smurf-input-focus-border-color);\n    outline: var(--smurf-input-border-width) auto var(--smurf-input-focus-border-color);\n}\n.pure-checkbox,\n.pure-radio,\nsmurf-input-radio,\nsmurf-input-checkbox{\n    margin: 0.5em 0;\n    display: block;\n}\n\n.pure-form input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"])[disabled],\n.pure-form select[disabled],\n.pure-form textarea[disabled] {\n    cursor: not-allowed;\n    background-color: var(--smurf-input-disabled-background-color);\n    color: var(--smurf-input-disabled-color);\n}\n\n.pure-form input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"])[readonly],\n.pure-form select[readonly],\n.pure-form textarea[readonly] {\n    background-color: var(--smurf-input-readonly-background-color); /* menu hover bg color */\n    color: var(--smurf-input-readonly-color); /* menu text color */\n    border-color: var(--smurf-input-readonly-border-color);\n}\n\n.pure-form input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]):focus:invalid,\n.pure-form textarea:focus:invalid,\n.pure-form select:focus:invalid {\n    color: var(--smurf-input-focus-invalid-color);\n    border-color: var(--smurf-input-focus-invalid-border-color);\n}\n.pure-form input[type=\"file\"]:focus:invalid:focus,\n.pure-form input[type=\"radio\"]:focus:invalid:focus,\n.pure-form smurf-input-radio:focus:invalid:focus,\n.pure-form input[type=\"checkbox\"]:focus:invalid:focus {\n    border-color: var(--smurf-input-focus-invalid-border-color);\n}\n.pure-form select {\n    /* Normalizes the height; padding is not sufficient. */\n    height: 2.25em;\n    border: var(--smurf-input-border);\n    background-color: var(--smurf-select-background-color);\n}\n.pure-form select[multiple] {\n    height: auto;\n}\n.pure-form label {\n    margin: 0.5em 0 0.2em;\n}\n.pure-form fieldset {\n    margin: 0;\n    padding: 0.35em 0 0.75em;\n    border: 0;\n}\n.pure-form legend {\n    display: block;\n    width: 100%;\n    padding: 0.3em 0;\n    margin-bottom: 0.3em;\n    color: var(--smurf-legend-color);\n    border-bottom: var(--smurf-legend-border);\n}\n\n.pure-form-stacked input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]),\n.pure-form-stacked select,\n.pure-form-stacked label,\n.pure-form-stacked textarea {\n    display: block;\n    margin: 0.25em 0;\n}\n\n.pure-form-aligned input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]),\n.pure-form-aligned textarea,\n.pure-form-aligned select,\n.pure-form-message-inline {\n    display: inline-block;\n    vertical-align: middle;\n}\n.pure-form-aligned textarea {\n    vertical-align: top;\n}\n\n/* Aligned Forms */\n.pure-form-aligned .pure-control-group {\n    margin-bottom: 0.5em;\n}\n.pure-form-aligned .pure-control-group label {\n    text-align: right;\n    display: inline-block;\n    vertical-align: middle;\n    width: 10em;\n    margin: 0 1em 0 0;\n}\n.pure-form-aligned .pure-controls {\n    margin: 1.5em 0 0 11em;\n}\n\n/* Rounded Inputs */\ninput:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]).pure-input-rounded,\n.pure-input-rounded {\n    border-radius: 2em;\n    padding: 0.5em 1em;\n}\n\n/* Grouped Inputs */\n.pure-group fieldset {\n    margin-bottom: 10px;\n}\n.pure-group input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]),\n.pure-group textarea {\n    display: block;\n    padding: 10px;\n    margin: 0 0 -1px;\n    border-radius: 0;\n    position: relative;\n    top: -1px;\n}\n.pure-group input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]):focus,\n.pure-group textarea:focus {\n    z-index: 3;\n}\n.pure-group input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]):first-child,\n.pure-group textarea:first-child {\n    top: 1px;\n    border-radius: 4px 4px 0 0;\n    margin: 0;\n}\n.pure-group input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]):first-child:last-child,\n.pure-group textarea:first-child:last-child {\n    top: 1px;\n    border-radius: 4px;\n    margin: 0;\n}\n.pure-group input:not([type=\"radio\"]):not([type=\"checkbox\"]):not([type=\"button\"]):last-child,\n.pure-group textarea:last-child {\n    top: -2px;\n    border-radius: 0 0 4px 4px;\n    margin: 0;\n}\n.pure-group button {\n    margin: 0.35em 0;\n}\n\n.pure-input-1 {\n    width: 100%;\n}\n.pure-input-3-4 {\n    width: 75%;\n}\n.pure-input-2-3 {\n    width: 66%;\n}\n.pure-input-1-2 {\n    width: 50%;\n}\n.pure-input-1-3 {\n    width: 33%;\n}\n.pure-input-1-4 {\n    width: 25%;\n}\n\n/* Inline help for forms */\n.pure-form-message-inline {\n    display: inline-block;\n    padding-left: 0.3em;\n    color: var(--smurf-input-message-color);\n    vertical-align: middle;\n    font-size: 0.875em;\n}\n\n/* Block help for forms */\n.pure-form-message {\n    display: block;\n    color: var(--smurf-input-message-color);\n    font-size: 0.875em;\n}\n",
             "module": "src/styles/form.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/styles/main.js",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/styles/main.js"
           }
         }
       ]
@@ -678,14 +879,15 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/styles/main.js",
+      "path": "src/styles/theme.js",
       "declarations": [],
       "exports": [
         {
           "kind": "js",
           "name": "default",
           "declaration": {
-            "module": "src/styles/main.js"
+            "name": "\n\n:root{\n    --smurf-base-color-h: 81;\n    --smurf-base-color-s: 50%;\n    --smurf-base-color-l: 41%;\n    \n    --smurf-secondary-color-h: 2;\n    --smurf-secondary-color-s: 50%;\n    --smurf-secondary-color-l: 45%;\n    \n    --smurf-tertiary-color-h: 183;\n    --smurf-tertiary-color-s: 49%;\n    --smurf-tertiary-color-l: 27%;\n\n    --smurf-base-color: hsl(var(--smurf-base-color-h), var(--smurf-base-color-s), var(--smurf-base-color-l));\n    --smurf-base-color-10: hsl(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) + 5%));\n    --smurf-base-color-20: hsl(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) + 10%));\n    --smurf-base-color-30: hsl(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) + 15%));\n    --smurf-base-color-40: hsl(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) + 20%));\n    --smurf-base-color-50: hsl(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) + 25%));\n    --smurf-base-color-60: hsl(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) + 30%));\n    --smurf-base-color-70: hsl(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) + 35%));\n    --smurf-base-color-80: hsl(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) + 40%));\n    \n    --smurf-secondary-color: hsl(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), var(--smurf-secondary-color-l));\n    --smurf-secondary-color-10: hsl(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) + 5%));\n    --smurf-secondary-color-20: hsl(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) + 10%));\n    --smurf-secondary-color-30: hsl(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) + 15%));\n    --smurf-secondary-color-40: hsl(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) + 20%));\n    --smurf-secondary-color-50: hsl(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) + 25%));\n    --smurf-secondary-color-60: hsl(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) + 30%));\n    --smurf-secondary-color-70: hsl(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) + 35%));\n    --smurf-secondary-color-80: hsl(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) + 40%));\n    \n    --smurf-tertiary-color: hsl(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), var(--smurf-tertiary-color-l));\n    --smurf-tertiary-color-10: hsl(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) + 5%));\n    --smurf-tertiary-color-20: hsl(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) + 10%));\n    --smurf-tertiary-color-30: hsl(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) + 15%));\n    --smurf-tertiary-color-40: hsl(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) + 20%));\n    --smurf-tertiary-color-50: hsl(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) + 25%));\n    --smurf-tertiary-color-60: hsl(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) + 30%));\n    --smurf-tertiary-color-70: hsl(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) + 35%));\n    --smurf-tertiary-color-80: hsl(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) + 40%));\n}\n",
+            "module": "src/styles/theme.js"
           }
         }
       ]
@@ -699,6 +901,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
+            "name": "\n\n:root{\n    --smurf-font-family: arial;\n\n    --smurf-spacing: 1em;\n\n    --smurf-color-lightness-light: 20%;\n    --smurf-color-lightness-lighter: 40%;\n    --smurf-color-lightness-lightest: 60%;\n\n    --smurf-opacity-light: 80%;\n    --smurf-opacity-medium: 60%;\n    --smurf-opacity-heavy: 40%;\n    --smurf-opacity-max: 20%;\n\n    --smurf-color-base-h: 81;\n    --smurf-color-base-s: 50%;\n    --smurf-color-base-l: 41%;\n    \n    --smurf-color-secondary-h: 2;\n    --smurf-color-secondary-s: 50%;\n    --smurf-color-secondary-l: 45%;\n    \n    --smurf-color-tertiary-h: 183;\n    --smurf-color-tertiary-s: 49%;\n    --smurf-color-tertiary-l: 27%;\n\n    --smurf-color-element-h: 2;\n    --smurf-color-element-s: 50%;\n    --smurf-color-element-l: 50%;\n\n    --smurf-color-system-h: 2;\n    --smurf-color-system-s: 50%;\n    --smurf-color-system-l: 50%;\n\n    --smurf-color-signal-1-h: 33;\n    --smurf-color-signal-1-s: 50%;\n    --smurf-color-signal-1-l: 41%;\n\n    --smurf-color-signal-2-h: 44;\n    --smurf-color-signal-2-s: 50%;\n    --smurf-color-signal-2-l: 41%;\n\n    --smurf-color-signal-3-h: 99;\n    --smurf-color-signal-3-s: 50%;\n    --smurf-color-signal-3-l: 41%;\n\n    /* BELOW THIS LINE THE POSIBLE VARIANTS ARE CREATED */\n\n    --smurf-padding-top: calc( 0.5 * --var(--spacing));\n    --smurf-padding-botton: calc( 0.5 * --var(--spacing));\n    --smurf-padding-left: --var(--spacing);\n    --smurf-padding-right: --var(--spacing);\n\n    --smurf-color-base: hsl(var(--smurf-color-base-h), var(--smurf-color-base-s), var(--smurf-color-base-l));\n    --smurf-color-base-light: hsl(var(--smurf-color-base-h), var(--smurf-color-base-s), calc(var(--smurf-color-base-l) + var(--smurf-color-lightness-light)));\n    --smurf-color-base-lighter: hsl(var(--smurf-color-base-h), var(--smurf-color-base-s), calc(var(--smurf-color-base-l) + var(--smurf-color-lightness-lighter)));\n    --smurf-color-base-lightest: hsl(var(--smurf-color-base-h), var(--smurf-color-base-s), calc(var(--smurf-color-base-l) + var(--smurf-color-lightness-lightest)));\n    \n    --smurf-color-secondary: hsl(var(--smurf-color-secondary-h), var(--smurf-color-secondary-s), var(--smurf-color-secondary-l));\n    --smurf-color-secondary-light: hsl(var(--smurf-color-secondary-h), var(--smurf-color-secondary-s), calc(var(--smurf-color-secondary-l) + var(--smurf-color-lightness-light)));\n    --smurf-color-secondary-lighter: hsl(var(--smurf-color-secondary-h), var(--smurf-color-secondary-s), calc(var(--smurf-color-secondary-l) + var(--smurf-color-lightness-lighter)));\n    --smurf-color-secondary-lightest: hsl(var(--smurf-color-secondary-h), var(--smurf-color-secondary-s), calc(var(--smurf-color-secondary-l) + var(--smurf-color-lightness-lightest)));\n\n    --smurf-color-tertiary: hsl(var(--smurf-color-tertiary-h), var(--smurf-color-tertiary-s), var(--smurf-color-tertiary-l));\n    --smurf-color-tertiary-light: hsl(var(--smurf-color-tertiary-h), var(--smurf-color-tertiary-s), calc(var(--smurf-color-tertiary-l) + var(--smurf-color-lightness-light)));\n    --smurf-color-tertiary-lighter: hsl(var(--smurf-color-tertiary-h), var(--smurf-color-tertiary-s), calc(var(--smurf-color-tertiary-l) + var(--smurf-color-lightness-lighter)));\n    --smurf-color-tertiary-lightest: hsl(var(--smurf-color-tertiary-h), var(--smurf-color-tertiary-s), calc(var(--smurf-color-tertiary-l) + var(--smurf-color-lightness-lightest)));\n\n    --smurf-color-element: hsl(var(--smurf-color-element-h), var(--smurf-color-element-s), var(--smurf-color-element-l));\n    --smurf-color-element-light: hsl(var(--smurf-color-element-h), var(--smurf-color-element-s), calc(var(--smurf-color-element-l) + var(--smurf-color-lightness-light)));\n    --smurf-color-element-lighter: hsl(var(--smurf-color-element-h), var(--smurf-color-element-s), calc(var(--smurf-color-element-l) + var(--smurf-color-lightness-lighter)));\n    --smurf-color-element-lightest: hsl(var(--smurf-color-element-h), var(--smurf-color-element-s), calc(var(--smurf-color-element-l) + var(--smurf-color-lightness-lightest)));\n    \n    --smurf-color-system: hsl(var(--smurf-color-system-h), var(--smurf-color-system-s), var(--smurf-color-system-l));\n    --smurf-color-system-light: hsl(var(--smurf-color-system-h), var(--smurf-color-system-s), calc(var(--smurf-color-system-l) + var(--smurf-color-lightness-light)));\n    --smurf-color-system-lighter: hsl(var(--smurf-color-system-h), var(--smurf-color-system-s), calc(var(--smurf-color-system-l) + var(--smurf-color-lightness-lighter)));\n    --smurf-color-system-lightest: hsl(var(--smurf-color-system-h), var(--smurf-color-system-s), calc(var(--smurf-color-system-l) + var(--smurf-color-lightness-lightest)));\n    \n    --smurf-color-signal-1: hsl(var(--smurf-color-signal-1-h), var(--smurf-color-signal-1-s), var(--smurf-color-signal-1-l));\n    --smurf-color-signal-1-light: hsl(var(--smurf-color-signal-1-h), var(--smurf-color-signal-1-s), calc(var(--smurf-color-signal-1-l) + var(--smurf-color-lightness-light)));\n    --smurf-color-signal-1-lighter: hsl(var(--smurf-color-signal-1-h), var(--smurf-color-signal-1-s), calc(var(--smurf-color-signal-1-l) + var(--smurf-color-lightness-lighter)));\n    --smurf-color-signal-1-lightest: hsl(var(--smurf-color-signal-1-h), var(--smurf-color-signal-1-s), calc(var(--smurf-color-signal-1-l) + var(--smurf-color-lightness-lightest)));\n    \n    --smurf-color-signal-2: hsl(var(--smurf-color-signal-2-h), var(--smurf-color-signal-2-s), var(--smurf-color-signal-2-l));\n    --smurf-color-signal-2-light: hsl(var(--smurf-color-signal-2-h), var(--smurf-color-signal-2-s), calc(var(--smurf-color-signal-2-l) + var(--smurf-color-lightness-light)));\n    --smurf-color-signal-2-lighter: hsl(var(--smurf-color-signal-2-h), var(--smurf-color-signal-2-s), calc(var(--smurf-color-signal-2-l) + var(--smurf-color-lightness-lighter)));\n    --smurf-color-signal-2-lightest: hsl(var(--smurf-color-signal-2-h), var(--smurf-color-signal-2-s), calc(var(--smurf-color-signal-2-l) + var(--smurf-color-lightness-lightest)));\n    \n    --smurf-color-signal-3: hsl(var(--smurf-color-signal-3-h), var(--smurf-color-signal-3-s), var(--smurf-color-signal-3-l));\n    --smurf-color-signal-3-light: hsl(var(--smurf-color-signal-3-h), var(--smurf-color-signal-3-s), calc(var(--smurf-color-signal-3-l) + var(--smurf-color-lightness-light)));\n    --smurf-color-signal-3-lighter: hsl(var(--smurf-color-signal-3-h), var(--smurf-color-signal-3-s), calc(var(--smurf-color-signal-3-l) + var(--smurf-color-lightness-lighter)));\n    --smurf-color-signal-3-lightest: hsl(var(--smurf-color-signal-3-h), var(--smurf-color-signal-3-s), calc(var(--smurf-color-signal-3-l) + var(--smurf-color-lightness-lightest)));\n    \n\n\n}\n",
             "module": "src/styles/variables.js"
           }
         }
@@ -709,33 +912,44 @@
       "path": "src/atoms/button/main.js",
       "declarations": [
         {
-          "kind": "variable",
-          "name": "TAGNAME",
-          "privacy": "public"
-        },
-        {
-          "kind": "variable",
-          "name": "TEMPLATE",
-          "default": "template",
-          "privacy": "public"
-        },
-        {
           "kind": "class",
           "description": "The class for the Smurfic button",
           "name": "MyClass",
+          "slots": [
+            {
+              "description": "This is a default/unnamed slot",
+              "name": ""
+            }
+          ],
           "members": [
             {
               "kind": "field",
-              "name": "primary",
+              "name": "variant",
               "type": {
-                "text": "boolean"
+                "text": "string"
               },
-              "attribute": "primary",
+              "attribute": "variant",
               "parameters": [
                 {
                   "name": "value",
                   "type": {
-                    "text": "boolean"
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "signal",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "signal",
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "string"
                   }
                 }
               ]
@@ -743,43 +957,45 @@
           ],
           "attributes": [
             {
-              "name": "primary",
+              "name": "variant",
               "type": {
-                "text": "boolean"
+                "text": "string"
               },
-              "fieldName": "primary",
+              "fieldName": "variant",
               "parameters": [
                 {
                   "name": "value",
                   "type": {
-                    "text": "boolean"
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "signal",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "signal",
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "string"
                   }
                 }
               ]
             }
           ],
           "superclass": {
-            "module": "src/atoms/button/main.js"
-          }
+            "name": "SUPERCLASS",
+            "module": "/src/atoms/button/main.config.js"
+          },
+          "tagName": "smurf-button",
+          "customElement": true
         }
       ],
       "exports": [
-        {
-          "kind": "js",
-          "name": "TAGNAME",
-          "declaration": {
-            "name": "TAGNAME",
-            "module": "src/atoms/button/main.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "TEMPLATE",
-          "declaration": {
-            "name": "TEMPLATE",
-            "module": "src/atoms/button/main.js"
-          }
-        },
         {
           "kind": "js",
           "name": "MyClass",
@@ -792,52 +1008,170 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/atoms/button/style.js",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/atoms/button/style.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/atoms/button/template.js",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/atoms/button/template.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/atoms/button/_config.js",
+      "path": "src/atoms/button/main.stories.js",
       "declarations": [
         {
           "kind": "variable",
-          "name": "TAGNAME",
-          "type": {
-            "text": "string"
-          },
-          "default": "'smurf-button'"
+          "name": "Playground"
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "TAGNAME",
+          "name": "default",
           "declaration": {
-            "name": "TAGNAME",
-            "module": "src/atoms/button/_config.js"
+            "module": "src/atoms/button/main.stories.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "Playground",
+          "declaration": {
+            "name": "Playground",
+            "module": "src/atoms/button/main.stories.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/atoms/button/main.style.js",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/atoms/button/main.style.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/atoms/button/main.template.js",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/atoms/button/main.template.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/atoms/input-radio/main.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "The class for the Smurfic button",
+          "name": "MyClass",
+          "members": [
+            {
+              "kind": "field",
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "checked",
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "checked"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "checked",
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "checked"
+                  }
+                }
+              ]
+            }
+          ],
+          "superclass": {
+            "name": "SUPERCLASS",
+            "module": "/src/atoms/input-radio/main.config.js"
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "MyClass",
+          "declaration": {
+            "name": "MyClass",
+            "module": "src/atoms/input-radio/main.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/atoms/input-radio/main.sturies.js",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "Playground"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/atoms/input-radio/main.sturies.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "Playground",
+          "declaration": {
+            "name": "Playground",
+            "module": "src/atoms/input-radio/main.sturies.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/atoms/input-radio/main.style.js",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/atoms/input-radio/main.style.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/atoms/input-radio/main.template.js",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/atoms/input-radio/main.template.js"
           }
         }
       ]
@@ -949,6 +1283,121 @@
           "declaration": {
             "name": "TAGNAME",
             "module": "src/atoms/input-text/_config.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tools/theme/main.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "The class for the Smurfic button",
+          "name": "MyClass",
+          "members": [
+            {
+              "kind": "field",
+              "name": "primary",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "primary",
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "primary",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "primary",
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            }
+          ],
+          "superclass": {
+            "name": "SUPERCLASS",
+            "module": "/src/tools/theme/main.config.js"
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "MyClass",
+          "declaration": {
+            "name": "MyClass",
+            "module": "src/tools/theme/main.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tools/theme/main.sturies.js",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "Playground"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/tools/theme/main.sturies.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "Playground",
+          "declaration": {
+            "name": "Playground",
+            "module": "src/tools/theme/main.sturies.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tools/theme/main.style.js",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/tools/theme/main.style.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tools/theme/main.template.js",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/tools/theme/main.template.js"
           }
         }
       ]

@@ -2,71 +2,510 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script type="module" src="src/main.js"></script>
+        
         <style>
-            body{
-                display: grid;
-                grid-template-columns: repeat(auto-fill, 200px);
-                grid-gap: 1.5rem;
+            :root{
+                --smurf-opacity-translucent: 50%;
+                --smurf-opacity-transparent: 15%;
+                
+                --smurf-base-color-h: 81;
+                --smurf-base-color-s: 50%;
+                --smurf-base-color-l: 41%;
+                
+                --smurf-secondary-color-h: 2;
+                --smurf-secondary-color-s: 50%;
+                --smurf-secondary-color-l: 45%;
+                
+                --smurf-tertiary-color-h: 183;
+                --smurf-tertiary-color-s: 49%;
+                --smurf-tertiary-color-l: 27%;
+                
+                --smurf-base-color-darker: hsl(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) - 20%));
+                --smurf-base-color-darker-translucent: hsla(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) - 20%), var(--smurf-opacity-translucent));
+                --smurf-base-color-darker-transparent: hsla(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) - 20%), var(--smurf-opacity-transparent));
+                --smurf-base-color-dark: hsl(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) - 10%)); 
+                --smurf-base-color-dark-translucent: hsla(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) - 10%), var(--smurf-opacity-translucent)); 
+                --smurf-base-color-dark-transparent: hsla(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) - 10%), var(--smurf-opacity-transparent)); 
+                --smurf-base-color: hsl(var(--smurf-base-color-h), var(--smurf-base-color-s), var(--smurf-base-color-l));
+                --smurf-base-color-translucent: hsla(var(--smurf-base-color-h), var(--smurf-base-color-s), var(--smurf-base-color-l), var(--smurf-opacity-translucent));
+                --smurf-base-color-transparent: hsla(var(--smurf-base-color-h), var(--smurf-base-color-s), var(--smurf-base-color-l), var(--smurf-opacity-transparent));
+                --smurf-base-color-light: hsl(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) + 10%));
+                --smurf-base-color-light-translucent: hsla(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) + 10%), var(--smurf-opacity-translucent));
+                --smurf-base-color-light-transparent: hsla(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) + 10%), var(--smurf-opacity-transparent));
+                --smurf-base-color-lighter: hsl(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) + 20%));
+                --smurf-base-color-lighter-translucent: hsla(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) + 20%), var(--smurf-opacity-translucent));
+                --smurf-base-color-lighter-transparent: hsla(var(--smurf-base-color-h), var(--smurf-base-color-s), calc(var(--smurf-base-color-l) + 20%), var(--smurf-opacity-transparent));
+
+                --smurf-secondary-color-darker: hsl(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) - 20%));
+                --smurf-secondary-color-darker-translucent: hsla(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) - 20%), var(--smurf-opacity-translucent));
+                --smurf-secondary-color-darker-transparent: hsla(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) - 20%), var(--smurf-opacity-transparent));
+                --smurf-secondary-color-dark: hsl(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) - 10%));
+                --smurf-secondary-color-dark-translucent: hsla(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) - 10%), var(--smurf-opacity-translucent));
+                --smurf-secondary-color-dark-transparent: hsla(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) - 10%), var(--smurf-opacity-transparent));
+                --smurf-secondary-color: hsl(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), var(--smurf-secondary-color-l));
+                --smurf-secondary-color-translucent: hsla(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), var(--smurf-secondary-color-l), var(--smurf-opacity-translucent));
+                --smurf-secondary-color-transparent: hsla(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), var(--smurf-secondary-color-l), var(--smurf-opacity-transparent));        
+                --smurf-secondary-color-light: hsl(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) + 10%));
+                --smurf-secondary-color-light-translucent: hsla(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) + 10%), var(--smurf-opacity-translucent));
+                --smurf-secondary-color-light-transparent: hsla(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) + 10%), var(--smurf-opacity-transparent));
+                --smurf-secondary-color-lighter: hsl(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) + 20%));
+                --smurf-secondary-color-lighter-translucent: hsla(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) + 20%), var(--smurf-opacity-translucent));
+                --smurf-secondary-color-lighter-transparent: hsla(var(--smurf-secondary-color-h), var(--smurf-secondary-color-s), calc(var(--smurf-secondary-color-l) + 20%), var(--smurf-opacity-transparent));
+    
+                --smurf-tertiary-color-darker: hsl(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) - 20%));
+                --smurf-tertiary-color-darker-translucent: hsla(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) - 20%), var(--smurf-opacity-translucent));
+                --smurf-tertiary-color-darker-transparent: hsla(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) - 20%), var(--smurf-opacity-transparent));
+                --smurf-tertiary-color-dark: hsl(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) - 10%));
+                --smurf-tertiary-color-dark-translucent: hsla(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) - 10%), var(--smurf-opacity-translucent));
+                --smurf-tertiary-color-dark-transparent: hsla(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) - 10%), var(--smurf-opacity-transparent));
+                --smurf-tertiary-color: hsl(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), var(--smurf-tertiary-color-l));
+                --smurf-tertiary-color-translucent: hsla(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), var(--smurf-tertiary-color-l), var(--smurf-opacity-translucent));
+                --smurf-tertiary-color-transparent: hsla(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), var(--smurf-tertiary-color-l), var(--smurf-opacity-transparent));
+                --smurf-tertiary-color-light: hsl(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) + 10%));
+                --smurf-tertiary-color-light-translucent: hsla(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) + 10%), var(--smurf-opacity-translucent));
+                --smurf-tertiary-color-light-transparent: hsla(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) + 10%), var(--smurf-opacity-transparent));
+                --smurf-tertiary-color-lighter: hsl(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) + 20%));
+                --smurf-tertiary-color-lighter-translucent: hsla(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) + 20%), var(--smurf-opacity-translucent));
+                --smurf-tertiary-color-lighter-transparent: hsla(var(--smurf-tertiary-color-h), var(--smurf-tertiary-color-s), calc(var(--smurf-tertiary-color-l) + 20%), var(--smurf-opacity-transparent));
             }
+            .smurf-checkbox-lock{
+                position: relative;
+            }
+            .smurf-checkbox-lock::after{
+                content: '\1F512';
+                position: absolute;
+                top:0;
+                left:0;
+            }
+            .smurf-text{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .smurf-color-block {
+                position: relative;
+            }
+            .smurf-color-block::after{
+                z-index: -1;
+                content: '';
+                display: block;
+                background-image: radial-gradient(var(--smurf-base-color) 20%, transparent 20%), radial-gradient(var(--smurf-base-color) 20%, transparent 20%);
+                background-position: 0 0, 5px 5px;
+                background-size: 10px 10px;
+                position: relative;
+                top: 0; 
+                left: 0;
+                height: 100%;
+                width: 100%;
+            }
+            .smurf-base {
+                background-color: var(--smurf-base-color);
+            }
+            .smurf-base-translucent {
+                background-color: var(--smurf-base-color-translucent);
+            }
+            .smurf-base-transparent {
+                background-color: var(--smurf-base-color-transparent);
+            }
+            .smurf-base-darker {
+                background-color: var(--smurf-base-color-darker);
+            }
+            .smurf-base-darker-translucent {
+                background-color: var(--smurf-base-color-darker-translucent);
+            }
+            .smurf-base-darker-transparent {
+                background-color: var(--smurf-base-color-darker-transparent);
+            }
+            .smurf-base-dark {
+                background-color: var(--smurf-base-color-dark);
+            }
+            .smurf-base-dark-translucent {
+                background-color: var(--smurf-base-color-dark-translucent);
+            }
+            .smurf-base-dark-transparent {
+                background-color: var(--smurf-base-color-dark-transparent);
+            }
+            .smurf-base-light {
+                background-color: var(--smurf-base-color-light);
+            }
+            .smurf-base-light-translucent {
+                background-color: var(--smurf-base-color-light-translucent);
+            }
+            .smurf-base-light-transparent {
+                background-color: var(--smurf-base-color-light-transparent);
+            }
+            .smurf-base-lighter {
+                background-color: var(--smurf-base-color-lighter);
+            }
+            .smurf-base-lighter-translucent {
+                background-color: var(--smurf-base-color-lighter-translucent);
+            }
+            .smurf-base-lighter-transparent {
+                background-color: var(--smurf-base-color-lighter-transparent);
+            }    
+            .smurf-secondary {
+                background-color: var(--smurf-secondary-color);
+            }
+            .smurf-secondary-translucent {
+                background-color: var(--smurf-secondary-color-translucent);
+            }
+            .smurf-secondary-transparent {
+                background-color: var(--smurf-secondary-color-transparent);
+            }
+            .smurf-secondary-darker {
+                background-color: var(--smurf-secondary-color-darker);
+            }
+            .smurf-secondary-darker-translucent {
+                background-color: var(--smurf-secondary-color-darker-translucent);
+            }
+            .smurf-secondary-darker-transparent {
+                background-color: var(--smurf-secondary-color-darker-transparent);
+            }
+            .smurf-secondary-dark {
+                background-color: var(--smurf-secondary-color-dark);
+            }
+            .smurf-secondary-dark-translucent {
+                background-color: var(--smurf-secondary-color-dark-translucent);
+            }
+            .smurf-secondary-dark-transparent {
+                background-color: var(--smurf-secondary-color-dark-transparent);
+            }
+            .smurf-secondary-light {
+                background-color: var(--smurf-secondary-color-light);
+            }
+            .smurf-secondary-light-translucent {
+                background-color: var(--smurf-secondary-color-light-translucent);
+            }
+            .smurf-secondary-light-transparent {
+                background-color: var(--smurf-secondary-color-light-transparent);
+            }
+            .smurf-secondary-lighter {
+                background-color: var(--smurf-secondary-color-lighter);
+            }
+            .smurf-secondary-lighter-translucent {
+                background-color: var(--smurf-secondary-color-lighter-translucent);
+            }
+            .smurf-secondary-lighter-transparent {
+                background-color: var(--smurf-secondary-color-lighter-transparent);
+            }
+            .smurf-tertiary {
+                background-color: var(--smurf-tertiary-color);
+            }
+            .smurf-tertiary-translucent {
+                background-color: var(--smurf-tertiary-color-translucent);
+            }
+            .smurf-tertiary-transparent {
+                background-color: var(--smurf-tertiary-color-transparent);
+            }
+            .smurf-tertiary-darker {
+                background-color: var(--smurf-tertiary-color-darker);
+            }
+            .smurf-tertiary-darker-translucent {
+                background-color: var(--smurf-tertiary-color-darker-translucent);
+            }
+            .smurf-tertiary-darker-transparent {
+                background-color: var(--smurf-tertiary-color-darker-transparent);
+            }
+            .smurf-tertiary-dark {
+                background-color: var(--smurf-tertiary-color-dark);
+            }
+            .smurf-tertiary-dark-translucent {
+                background-color: var(--smurf-tertiary-color-dark-translucent);
+            }
+            .smurf-tertiary-dark-transparent {
+                background-color: var(--smurf-tertiary-color-dark-transparent);
+            }
+            .smurf-tertiary-light {
+                background-color: var(--smurf-tertiary-color-light);
+            }
+            .smurf-tertiary-light-translucent {
+                background-color: var(--smurf-tertiary-color-light-translucent);
+            }
+            .smurf-tertiary-light-transparent {
+                background-color: var(--smurf-tertiary-color-light-transparent);
+            }
+            .smurf-tertiary-lighter {
+                background-color: var(--smurf-tertiary-color-lighter);
+            }
+            .smurf-tertiary-lighter-translucent {
+                background-color: var(--smurf-tertiary-color-lighter-translucent);
+            }
+            .smurf-tertiary-lighter-transparent {
+                background-color: var(--smurf-tertiary-color-lighter-transparent);
+            }
+
+            body {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+
+            #smurf-base-colors {
+                display: grid;
+                grid-template-columns: repeat(6, 100px);
+                grid-template-rows: repeat(24, 40px);
+                grid-gap: 4px
+            }
+
+            .smurf-base-color-controls{
+                grid-column-start: 2;
+                grid-column-end: 7;
+            }
+            .smurf-base-color-controls fieldset{
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-rows: auto auto;
+            }
+
+            label[data-value]::after{
+                content: attr(data-value);
+            }
+
+
         </style>
+
         <script>
-            document.addEventListener('DOMContentLoaded', (e) => {
+            const debounce = (callback, wait) => {
+                let _nTimeoutId = null;
+                return (...args) => {
+                    window.clearTimeout(_nTimeoutId);
+                    _nTimeoutId = window.setTimeout(() => {
+                        callback.apply(null, args);
+                    }, wait);
+                };
+            }
+
+            const _aIdHueControls = ['smurf-base-hue', 'smurf-secondary-hue', 'smurf-tertiary-hue'];
+
+            function _getElementFullValue(element){
+                return `${element.value}${element.getAttribute('data-css-var-units') || ''}`.trim();
+            }
+
+            function _handleTriadColorLock(element){
+                const _nValue = Number.parseInt(element.value);
                 
-                const _aTimingsNew = [];
-                const _aTimingsOld = [];
-
-                const _aButtons = [`<smurf-button>Smurfic button</smurf-button>`, 
-                `<smurf-button-oldstyle>Smurfic button </smurf-button-oldstyle>`];
-
-                for(let _j = 0, _nBound = 100; _j <= _nBound; _j++){
-                    let _sHTML = '';
-                    for(let _i = 0, _nBound = 1000; _i <= _nBound; _i++){
-                        _sHTML += _aButtons[0];
-                    }
-                    performance.mark('New Start');
-                    document.body.innerHTML = _sHTML;
+                let _nValuePlus = 120 + _nValue;
+                if(360 < _nValuePlus){
+                    _nValuePlus -= 360;
+                }
+                let _nValueMinus = (_nValue + 120) - (2 * 120);
+                if(0 > _nValueMinus){
+                    _nValueMinus = 360 - (-1 * _nValueMinus);
                 }
                 
-                
+                _setNewCssVarValue(element);
 
-                for(let _j = 0, _nBound = 100; _j <= _nBound; _j++){
-                    let _sHTML = '';
-                    for(let _i = 0, _nBound = 1000; _i < _nBound; _i++){
-                        _sHTML += _aButtons[1];
-                    }
-                    performance.mark('Old Start');
-                    document.body.innerHTML = _sHTML;
+                const _aTargettedHueControlIds = _aIdHueControls.filter(_value => _value !== element.id);
+                const _elPlus = document.getElementById(_aTargettedHueControlIds[0]);
+                _elPlus.value = _nValuePlus;
+                _setNewCssVarValue(_elPlus);
+                _setCssVarValueAsAttribute(_elPlus);
+                
+                const _elMinus = document.getElementById(_aTargettedHueControlIds[1]);
+                _elMinus.value = _nValueMinus;
+                _setNewCssVarValue(_elMinus);
+                _setCssVarValueAsAttribute(_elMinus);
+                
+            }
+
+            function _setNewCssVarValue(_el){
+                const _sValue = _getElementFullValue(_el);
+                document.documentElement.style.setProperty(_el.getAttribute('data-css-var'), _sValue);
+            }
+
+            function _setCssVarValueAsAttribute(_el){
+                const _sValue = _getElementFullValue(_el);
+                
+                if(_el?.labels?.length){
+                    _el.labels[0].dataset.value = _sValue.padStart(4, ' ');
                 }
-                
+            }
 
-                setTimeout(() => {
-                    console.log('Result: ');
-                    console.log('-------------------');
-                    console.log('Number repeat: 100');
-                    console.log('Number custom elements : 1000');
-                    console.log('-------------------------------');
-                    const _aMeasuresNew = performance.getEntriesByName('New');
-                    const _aDurationNew = _aMeasuresNew.map(measure => measure.duration);
-                    const _nTotalTimeNew = _aDurationNew.reduce((accumVariable, curValue) => accumVariable + curValue, 0);
-                    const _nAverageNew = _nTotalTimeNew/_aDurationNew.length;
-                    console.log('Constructible stylesheet: ', _nAverageNew + 'ms');
-
-                    const _aMeasuresOld = performance.getEntriesByName('Old');
-                    const _aDurationOld = _aMeasuresOld.map(measure => measure.duration);
-                    const _nTotalTimeOld = _aDurationOld.reduce((accumVariable, curValue) => accumVariable + curValue, 0);
-                    const _nAverageOld = _nTotalTimeOld/_aDurationOld.length;
-                    console.log('With own style element: ', _nAverageOld + 'ms');
-                }, 3000);
+            function _handleValueChange(event){
+                const _el = event.target;
+                if(_el.type !== 'range'){
+                    return;
+                }
+                _setCssVarValueAsAttribute(_el); 
                
-            });
+                if(_aIdHueControls.includes(_el.id)){
+                    _handleTriadColorLock(_el);
+                } else {
+                    _setNewCssVarValue(_el);
+                }
+                
+            }
+
+            const _debounced_handleValueChange = debounce(_handleValueChange, 250);
+
+            function _setCurrentValues(){
+                const _nodelistCssVarInputSliders = document.querySelectorAll('[data-css-var]');
+                for(const _el of _nodelistCssVarInputSliders){
+                    const _sUnits = _el.getAttribute('data-css-var-units') || '';
+                    const _sCssVar = _el.getAttribute('data-css-var');
+                    const _sValue = getComputedStyle(_el).getPropertyValue(_sCssVar).replace(_sUnits, '');
+                    
+                    _el.value = _sValue;
+                    _el.closest('div').setAttribute('data-value', _sValue);
+
+                    _setCssVarValueAsAttribute(_el);
+                   
+                }
+            }
+
+            window.addEventListener('load', function () {
+                
+                document.body.addEventListener('input', _debounced_handleValueChange);
+
+                _setCurrentValues();
+
+            }, false);
         </script>
+       
     </head>
     <body>
-        
-        <smurf-button>Smurfic button</smurf-button>
-        <smurf-button>Smurfic button</smurf-button>
-        <smurf-button>Smurfic button</smurf-button>
+        <div id="smurf-base-colors">
+            
+            <div class="smurf-text"><label>base</label><input type="checkbox" value="base" name="smurf-hue-lock" class="smurf-checkbox-lock"></div>
+            <div class="smurf-text">darker</div>
+            <div class="smurf-text">dark</div>
+            <div class="smurf-text">normal</div>
+            <div class="smurf-text">light</div>
+            <div class="smurf-text">lighter</div>
+
+            <div class="smurf-text">normal</div>
+            <div class="smurf-color-block smurf-base-darker"></div>
+            <div class="smurf-color-block smurf-base-dark"></div>
+            <div class="smurf-color-block smurf-base"></div>
+            <div class="smurf-color-block smurf-base-light"></div>
+            <div class="smurf-color-block smurf-base-lighter"></div>
+
+            <div class="smurf-text">translucent</div>
+            <div class="smurf-color-block smurf-base-darker-translucent"></div>
+            <div class="smurf-color-block smurf-base-dark-translucent"></div>
+            <div class="smurf-color-block smurf-base-translucent"></div>
+            <div class="smurf-color-block smurf-base-light-translucent"></div>
+            <div class="smurf-color-block smurf-base-lighter-translucent"></div>
+
+            <div class="smurf-text">transparent</div>
+            <div class="smurf-color-block smurf-base-darker-transparent"></div>
+            <div class="smurf-color-block smurf-base-dark-transparent"></div>
+            <div class="smurf-color-block smurf-base-transparent"></div>
+            <div class="smurf-color-block smurf-base-light-transparent"></div>
+            <div class="smurf-color-block smurf-base-lighter-transparent"></div>
+            
+            <div class="smurf-base-color-controls smurf-controls">
+                <fieldset>
+                    <legend>--smurf-base-color</legend>
+                    <label for="smurf-base-hue">hue</label>
+                    <label for="smurf-base-saturation">saturation</label>
+                    <label for="smurf-base-lightness">lightness</label>
+                    
+                    <input id="smurf-base-hue" type="range" value="0" min="0" max="360" data-css-var="--smurf-base-color-h" data-css-var-units="">
+                    <input id="smurf-base-saturation" type="range" value="0" min="0" max="100" data-css-var="--smurf-base-color-s" data-css-var-units="%">
+                    <input id="smurf-base-lightness" type="range" value="0" min="0" max="100" data-css-var="--smurf-base-color-l" data-css-var-units="%">
+                </fieldset>
+            </div>
+            
+            <div class="smurf-text">secondary <input type="checkbox" name="smurf-hue-lock" class="smurf-checkbox-lock"></div>
+            <div class="smurf-text">darker</div>
+            <div class="smurf-text">dark</div>
+            <div class="smurf-text">normal</div>
+            <div class="smurf-text">light</div>
+            <div class="smurf-text">lighter</div>
+
+            <div class="smurf-text">normal</div>
+            <div class="smurf-color-block smurf-secondary-darker"></div>
+            <div class="smurf-color-block smurf-secondary-dark"></div>
+            <div class="smurf-color-block smurf-secondary"></div>
+            <div class="smurf-color-block smurf-secondary-light"></div>
+            <div class="smurf-color-block smurf-secondary-lighter"></div>
+
+            <div class="smurf-text">translucent</div>
+            <div class="smurf-color-block smurf-secondary-darker-translucent"></div>
+            <div class="smurf-color-block smurf-secondary-dark-translucent"></div>
+            <div class="smurf-color-block smurf-secondary-translucent"></div>
+            <div class="smurf-color-block smurf-secondary-light-translucent"></div>
+            <div class="smurf-color-block smurf-secondary-lighter-translucent"></div>
+
+            <div class="smurf-text">transparent</div>
+            <div class="smurf-color-block smurf-secondary-darker-transparent"></div>
+            <div class="smurf-color-block smurf-secondary-dark-transparent"></div>
+            <div class="smurf-color-block smurf-secondary-transparent"></div>
+            <div class="smurf-color-block smurf-secondary-light-transparent"></div>
+            <div class="smurf-color-block smurf-secondary-lighter-transparent"></div>
+            
+            <div></div>
+            <div><label>hue</label><input id="smurf-secondary-hue" type="range" value="0" min="0" max="360" data-css-var="--smurf-secondary-color-h" data-css-var-units=""></div>
+            <div></div>
+            <div><label>saturation</label><input type="range" value="0" min="0" max="100" data-css-var="--smurf-secondary-color-s" data-css-var-units="%"></div>
+            <div></div>
+            <div><label>lightness</label><input type="range" value="0" min="0" max="100" data-css-var="--smurf-secondary-color-l" data-css-var-units="%"></div>
+            
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+
+            <div class="smurf-text">tertiary <input type="checkbox" name="smurf-hue-lock" class="smurf-checkbox-lock"></div>
+            <div class="smurf-text">darker</div>
+            <div class="smurf-text">dark</div>
+            <div class="smurf-text">normal</div>
+            <div class="smurf-text">light</div>
+            <div class="smurf-text">lighter</div>
+
+            <div class="smurf-text">normal</div>
+            <div class="smurf-color-block smurf-tertiary-darker"></div>
+            <div class="smurf-color-block smurf-tertiary-dark"></div>
+            <div class="smurf-color-block smurf-tertiary"></div>            
+            <div class="smurf-color-block smurf-tertiary-light"></div>
+            <div class="smurf-color-block smurf-tertiary-lighter"></div>
+
+            <div class="smurf-text">translucent</div>
+            <div class="smurf-color-block smurf-tertiary-darker-translucent"></div>
+            <div class="smurf-color-block smurf-tertiary-dark-translucent"></div>
+            <div class="smurf-color-block smurf-tertiary-translucent"></div>            
+            <div class="smurf-color-block smurf-tertiary-light-translucent"></div>
+            <div class="smurf-color-block smurf-tertiary-lighter-translucent"></div>
+
+            <div class="smurf-text">transparent</div>
+            <div class="smurf-color-block smurf-tertiary-darker-transparent"></div>
+            <div class="smurf-color-block smurf-tertiary-dark-transparent"></div>
+            <div class="smurf-color-block smurf-tertiary-transparent"></div>            
+            <div class="smurf-color-block smurf-tertiary-light-transparent"></div>
+            <div class="smurf-color-block smurf-tertiary-lighter-transparent"></div>
+
+            <div></div>
+            <div><label>hue</label><input id="smurf-tertiary-hue" type="range" value="0" min="0" max="360" data-css-var="--smurf-tertiary-color-h" data-css-var-units=""></div>
+            <div></div>
+            <div><label>saturation</label><input type="range" value="0" min="0" max="100" data-css-var="--smurf-tertiary-color-s" data-css-var-units="%"></div>
+            <div></div>
+            <div><label>lightness</label><input type="range" value="0" min="0" max="100" data-css-var="--smurf-tertiary-color-l" data-css-var-units="%"></div>
+            
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>  
+
+        <div id="smurf-additionals">
+
+            <div class="controls">
+                <fieldset>
+                    <legend>Opacity</legend>
+                    <label for="smurf-opacity-translucent">translucent</label>
+                    <input id="smurf-opacity-translucent" type="range" value="0" min="0" max="100" data-css-var="--smurf-opacity-translucent" data-css-var-units="%">
+                    <label for="smurf-opacity-transparant">transparent</label>
+                    <input id="--smurf-opacity-transparent" type="range" value="0" min="0" max="100" data-css-var="--smurf-opacity-transparent" data-css-var-units="%">
+                </fieldset>
+            </div>
+        </div>
 
     </body>
 </html>

@@ -8,8 +8,6 @@ import formVariables from './form-variables.js';
 import normalize from './normalize.js';
 import variables from './variables.js';
 
-
-
 // todo when global configs says to load the styles global, then adoptstylesheet to main document
 // or offer a method oid But prevent that all styles are inluded in an import and threeshake won't work
 /**

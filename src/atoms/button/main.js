@@ -1,82 +1,80 @@
-import { setBooleanAttribute, defineCustomElement, getTemplateContent} from '../../toolbox.js';
-import * as base from '../../input/main.js';
-import * as template from './template.js';
-import * as style from './style.js';
-import * as config from './_config.js';
+/**
+ * @module
+ * @fileoverview
+ */
+
+import { defineCustomElement} from '../../toolbox.js';
+import TEMPLATE from './main.template.js';
+import STYLESHEET from './main.style.js';
+import * as config from './main.config.js';
 
 /* PRIVATE */
+/**
+ * @const 
+ * @type {SMURF_BASE_SETTINGS & SMURF_INPUT_SETTINGS}
+ * @private
+ */
+ const _DEFAULT_PROPS = {
+    template: TEMPLATE, 
+    anchor: undefined,
+    adoptedStyleSheets: STYLESHEET
+};
 
-let _COUNTER = 1;
 /* PUBLIC */
 
-/**
- * @public
- * @const {CSSStyleSheet}
- */
-export const STYLESHEET = style.SHEET;
-/**
- * @public
- * @const {string}
- */
-export const STYLESHEET_CONTENT = style.CONTENT;
-
-/**
- * @const {string}
- * @public
- */
-export const TAGNAME = config.TAGNAME;
-
-/**
- * @const {string}
- * @public
- */
-export const TEMPLATE_CONTENT = template.CONTENT;
-
+export { VARIANTS, SIGNALS, TAGNAME } from './main.config.js';
 
  /**
   * The class for the Smurfic button
+  * @type {HTMLElement}
+  * @public
+  * 
+  * @tagname smurf-button
+  * @slot - This is a default/unnamed slot
+  * 
   */
-export class MyClass extends base.MyClass {
+export class MyClass extends config.SUPERCLASS {
     
     /**
      * 
-     * @param {InputConstructorParam} param 
+     * @param {SMURF_BASE_SETTINGS & SMURF_INPUT_SETTINGS} props
      */
-    constructor({documentFragment = getTemplateContent(TAGNAME), anchor = 'button', settings = {}, adoptedStyleSheets = []} = {}) {
-        super({documentFragment, anchor, settings, adoptedStyleSheets: [...adoptedStyleSheets, STYLESHEET]});
+    constructor(props = {}) {
+        super({..._DEFAULT_PROPS, ...props});
     }
 
-    connectedCallback(){
-        _COUNTER++;
-
-        if(1000 === _COUNTER){
-            performance.mark('New End');
-            performance.measure(
-                'New',
-                'New Start',
-                'New End'
-            );
-            _COUNTER = 0;
-        }
-    }
     /* GET & SET */
 
     /**
-     * @type {boolean}
+     * @type {string}
      * @attr
      */
-    get primary(){
-        return this.hasAttribute('primary');
+    get variant(){
+        return this.getAttribute('variant');
+    }
+    /**
+     * @param {string} value
+     * @attr
+     */
+    set variant(value){
+        this.setAttribute('variant', Object.values(config.VARIANTS).includes(value) ? value : null);
+    }
+    /**
+     * @type {string}
+     * @attr
+     */
+    get signal(){
+        return this.getAttribute('signal');
     }
 
     /**
-     * @param {boolean} value
+     * @param {string} value
      * @attr
      */
-    set primary(value){
-        setBooleanAttribute(this, 'primary', value);
+    set signal(value){
+        this.setAttribute('signal', Object.values(config.SIGNALS).includes(value) ? value : null);
     }
 
- };
+};
 
-defineCustomElement(TAGNAME, MyClass);
+defineCustomElement(config.TAGNAME, MyClass);

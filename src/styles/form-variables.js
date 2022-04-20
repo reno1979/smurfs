@@ -1,3 +1,8 @@
+
+/**
+ * @type {string}
+ * @public
+ */
 export default /* css */ `
 
 :root{

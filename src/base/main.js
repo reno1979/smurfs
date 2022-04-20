@@ -1,39 +1,47 @@
-import '../typedefs.js';
-import * as config from './_config.js';
-import baseStyle from './style.js';
-import template from './template.js';
-import { getElement } from '../toolbox.js';
 
-/* PRIVATE */
+
+import '../typedefs.js';
+import './main.template.js';
+import { getElement, setBooleanAttribute } from '../toolbox.js';
+import * as config from './main.config.js';
 
 /**
- * @const {CSSStyleSheet}
+ * @public 
+ * @const {boolean}
  * @private
  */
-const _SHEET = new CSSStyleSheet();
-_SHEET.replaceSync(baseStyle);
-
-/* PUBLIC */
-
+const _SUPPORT_CONSTRUCTABLE_STYLESHEET = 'adoptedStyleSheets' in document;
 /**
- * @const {string}
  * @public
+ * @const {string}
  */
 export const TAGNAME = config.TAGNAME;
 
 /**
- * @const {string}
- * @public
- */
-export const TEMPLATE = template;
-
-/**
  * The main class for the Smurfic elements
  * @extends {HTMLElement}
+ * @public
  */
 export class MyClass extends HTMLElement {
-    
+  
   /**
+   * 
+   * @param {import('../typedefs.js').SMURF_BASE_SETTINGS} props 
+   */
+  #init(props = {}){
+    const { template, adoptedStyleSheets } = props;
+
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.appendChild(template.cloneNode(true));
+
+    if(_SUPPORT_CONSTRUCTABLE_STYLESHEET && adoptedStyleSheets){
+      // @ts-ignore
+      this.shadowRoot.adoptedStyleSheets = adoptedStyleSheets;
+    }
+  }
+
+  /**
+   * @static
    * @returns {Array<string>}
    */
   static get observedAttributes() {
@@ -41,42 +49,35 @@ export class MyClass extends HTMLElement {
   }
   
   /**
-   * @param {Object} param
-   * @param {Array<CSSStyleSheet>} [param.adoptedStyleSheets=[]]
-   * @param {Object} [param.settings={}]
-   * @param {DocumentFragment} [param.documentFragment]
+   * @param {SMURF_BASE_SETTINGS} props
    */
-  constructor({documentFragment, settings = {}, adoptedStyleSheets = []}) {
+  constructor(props = {} ) {
     super();
-
-    // The shadow root contains our custom component's shadow DOM
-    this.attachShadow({
-      mode: 'open'
-    })
-    if(documentFragment){
-      this.shadowRoot.appendChild(documentFragment);
-    }
-    this.shadowRoot.adoptedStyleSheets = [...adoptedStyleSheets, _SHEET];
+    this.#init(props);
   }
+    
   /**
-   * 
-   * @param {Object} param
+   * @returns {Promise<void>}
    */
-  connectedCallback() { }
+  async connectedCallback() { }
 
   disconnectedCallback() {}
 
+  /**
+   * 
+   * @param {!string} name 
+   * @param {!string|null} oldValue 
+   * @param {!string|null} newValue 
+   */
   attributeChangedCallback(name, oldValue, newValue) {}
-
-  /* PRIVATE */
 
   /* SHARED */
 
   /**
    * 
    * @param {!string} selector 
-   * @param {HTMLElement} [parent=shadowRoot]
-   * @returns {Promise<HTMLElement>}
+   * @param {Element|ShadowRoot} [parent=shadowRoot]
+   * @returns {Promise<Element>}
    */
   _getElement(selector, parent = this.shadowRoot){
     return getElement(selector, parent);

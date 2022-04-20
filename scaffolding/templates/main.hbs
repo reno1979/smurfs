@@ -1,0 +1,63 @@
+/**
+ * @module main.template.js
+ * @fileoverview The template module for the custom element: 'smurf-{{module}}'
+ */
+
+import * as toolbox from '../../toolbox.js';
+import TEMPLATE from './main.template.js';
+import STYLESHEET from './main.style.js';
+import * as config from './main.config.js';
+
+/* PRIVATE */
+
+/**
+ * @const 
+ * @type{{#if isInput}} {SMURF_BASE_SETTINGS & SMURF_INPUT_SETTINGS} {{else}} {SMURF_BASE_SETTINGS} {{/if}}
+ * @private
+ */
+ const _DEFAULT_PROPS = {
+    template: TEMPLATE, 
+    anchor: undefined,
+    adoptedStyleSheets: STYLESHEET
+};
+
+/* PUBLIC */
+
+export { TAGNAME } from './main.config.js';
+
+/**
+  * The class for the Smurfic {{module}}
+  * @type {HTMLElement}
+  * @public
+  * 
+  * @tagname smurf-{{module}}
+  *  
+  */
+export class MyClass extends config.SUPERCLASS {
+    
+    /**
+     * 
+     * @param{{#if isInput}} {SMURF_BASE_SETTINGS & SMURF_INPUT_SETTINGS} {{else}} {SMURF_BASE_SETTINGS} {{/if}} props
+     */
+    constructor(props = {}) {
+        super({..._DEFAULT_PROPS, ...props});
+    }
+
+    /**
+    * @returns {Promise<void>}
+    */
+    async connectedCallback() {
+        await super.connectedCallback();
+    }
+    /**
+     * @returns {void} 
+     */
+    disconnectedCallback() {
+        super.disconnectedCallback();
+    }
+
+    /* GET & SET */
+
+};
+
+toolbox.defineCustomElement(config.TAGNAME, MyClass);

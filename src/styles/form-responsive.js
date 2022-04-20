@@ -1,3 +1,9 @@
+import { GROUP, CONTROL_GROUP, CONTROLS, FORM_ALIGNED, FORM_MESSAGE, FORM_MESSAGE_INLINE } from './classes.js';
+
+/**
+ * @public
+ * @type {string}
+ */
 export default /* css */ `
 @media only screen and (max-width : 480px) {
     button[type="submit"] {
@@ -24,37 +30,37 @@ export default /* css */ `
         display: block;
     }
 
-    .pure-group input:not([type]),
-    .pure-group input[type="text"],
-    .pure-group input[type="password"],
-    .pure-group input[type="email"],
-    .pure-group input[type="url"],
-    .pure-group input[type="date"],
-    .pure-group input[type="month"],
-    .pure-group input[type="time"],
-    .pure-group input[type="datetime"],
-    .pure-group input[type="datetime-local"],
-    .pure-group input[type="week"],
-    .pure-group input[type="number"],
-    .pure-group input[type="search"],
-    .pure-group input[type="tel"],
-    .pure-group input[type="color"] {
+    .${GROUP} input:not([type]),
+    .${GROUP} input[type="text"],
+    .${GROUP} input[type="password"],
+    .${GROUP} input[type="email"],
+    .${GROUP} input[type="url"],
+    .${GROUP} input[type="date"],
+    .${GROUP} input[type="month"],
+    .${GROUP} input[type="time"],
+    .${GROUP} input[type="datetime"],
+    .${GROUP} input[type="datetime-local"],
+    .${GROUP} input[type="week"],
+    .${GROUP} input[type="number"],
+    .${GROUP} input[type="search"],
+    .${GROUP} input[type="tel"],
+    .${GROUP} input[type="color"] {
         margin-bottom: 0;
     }
 
-    .pure-form-aligned .pure-control-group label {
+    .${FORM_ALIGNED} .${CONTROL_GROUP} label {
         margin-bottom: 0.3em;
         text-align: left;
         display: block;
         width: 100%;
     }
 
-    .pure-form-aligned .pure-controls {
+    .${FORM_ALIGNED} .${CONTROLS} {
         margin: 1.5em 0 0 0;
     }
 
-    .pure-form-message-inline,
-    .pure-form-message {
+    .${FORM_MESSAGE_INLINE},
+    .${FORM_MESSAGE} {
         display: block;
         font-size: 0.75em;
         /* Increased bottom padding to make it group with its related input element. */

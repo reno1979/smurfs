@@ -1,26 +1,17 @@
-import * as base from '../base/main.js';
-import * as config from './_config.js';
-import * as style from './style.js';
-import * as template from './template.js';
 
+
+// @ts-ignore
+import TEMPLATE from './main.template.js';
+export { TAGNAME } from './main.config.js';
+import { SUPERCLASS } from './main.config.js';
 /* PUBLIC */
 
 /**
- * @public
- * @const {CSSStyleSheet}
- */
- export const STYLESHEET = style.SHEET;
- /**
-  * @public
-  * @const {string}
-  */
- export const STYLESHEET_CONTENT = style.CONTENT;
-
-/**
- * @const {ValidityStateFlags}
+ * @const 
+ * @type {import('../typedefs.js').SMURF_VALIDITY_STATE_FLAGS}
  * @public
  */
- export const VALIDITY_STATE_FLAGS = {
+export const VALIDITY_STATE_FLAGS = {
    valueMissing: false,
    typeMismatch: false,
    patternMismatch: false,
@@ -34,21 +25,32 @@ import * as template from './template.js';
 };
 
 /**
- * @const {string}
- * @public
- */
- export const TAGNAME = config.TAGNAME;
-
- /**
-  * @const {string}
-  * @public
-  */
- export const TEMPLATE_CONTENT = template.CONTENT;
-
-/**
  * The main class for the Smurfic input elements
  */
- export class MyClass extends base.MyClass {
+export class MyClass extends SUPERCLASS {
+   /**
+    * @type {ElementInternals}
+    */
+   #internals;
+   /**
+    * @type {string}
+    */
+   #anchor;
+
+   /**
+    * 
+    * @param {import('../typedefs.js').SMURF_BASE_SETTINGS & import('../typedefs.js').SMURF_INPUT_SETTINGS} props 
+    */
+   #init(props = {}){
+      const { anchor } = props;
+
+      this.#internals = this.attachInternals(); 
+      this.#anchor = anchor;
+     
+      if(!this.hasAttribute('tabindex')){
+         this.setAttribute('tabindex', '0'); 
+      }
+   }
    /**
     * @returns {Array<string>}
     */
@@ -63,19 +65,19 @@ import * as template from './template.js';
    }
    /**
     * 
-    * @param {InputConstructorParam} param
+    * @param {import('../typedefs.js').SMURF_BASE_SETTINGS & import('../typedefs.js').SMURF_BASE_SETTINGS} props
     */
-   constructor({documentFragment, anchor = 'input', settings = {}, adoptedStyleSheets = []} = {}) {
-      super({documentFragment, settings, adoptedStyleSheets: [...adoptedStyleSheets, STYLESHEET]});
-
-      this._internals = this.attachInternals(); 
-      this._input_anchor = anchor;
-     
-      if(!this.hasAttribute('tabindex')){
-         this.setAttribute('tabindex', 0); 
-      }
+   constructor(props = {}) {
+      super(props);
+      this.#init(props);     
    }
 
+   /**
+    * 
+    * @param {string} name 
+    * @param {string} oldValue 
+    * @param {string} newValue 
+    */
    attributeChangedCallback(name, oldValue, newValue) {
       super.attributeChangedCallback(name, oldValue, newValue);
      
@@ -84,7 +86,7 @@ import * as template from './template.js';
             // draw a label
             break;
          default: 
-            this._getElement(this._input_anchor).then(_el => _el.setAttribute(name, newValue));
+            this._getElement(this.#anchor).then(_el => _el.setAttribute(name, newValue));
             break;
       }
    }
@@ -99,23 +101,20 @@ import * as template from './template.js';
    // The following properties and methods aren't strictly required,
    // but browser-level form controls provide them. Providing them helps
    // ensure consistency with browser-provided controls.
-   get form() { return this._internals.form; }
+   // @ts-ignore
+   get form() { return this.#internals.form; }
    get name() { return this.getAttribute('name'); }
    get type() { return this.localName; }
-   get validity() {return this._internals.validity; }
-   get validationMessage() {return this._internals.validationMessage; }
-   get willValidate() {return this._internals.willValidate; }
+   // @ts-ignore
+   get validity() {return this.#internals.validity; }
+   // @ts-ignore
+   get validationMessage() {return this.#internals.validationMessage; }
+   // @ts-ignore
+   get willValidate() {return this.#internals.willValidate; }
 
-   checkValidity() {return this._internals.checkValidity(); }
-   reportValidity() {return this._internals.reportValidity(); }
+   // @ts-ignore
+   checkValidity() {return this.#internals.checkValidity(); }
+   // @ts-ignore
+   reportValidity() {return this.#internals.reportValidity(); }
       
- };
-
- 
- /**
- * @typedef {Object} InputConstructorParam
- * @property {Object} [settings={}]
- * @property {!string} [anchor='input'] The anchor selector 
- * @property {Array<CSSStyleSheet>} [adoptedStyleSheets=[]]
- * @property {DocumentFragment} [documentFragment]
- */
+};

@@ -1,0 +1,12 @@
+/**
+ * @module main.config.js
+ * @fileoverview The shared config module for the custom element: 'smurf-{{module}}'
+ */
+
+export { MyClass as SUPERCLASS, TAGNAME as TAGNAME_SUPERCLASS} from '../../{{#if isInput}}input{{else}}base{{/if}}/main.js';
+
+/**
+ * @const {string}
+ * @public
+ */
+export const TAGNAME = 'smurf-{{module}}';

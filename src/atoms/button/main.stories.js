@@ -1,9 +1,11 @@
-import { html } from 'lit-html';
+import { htmlFromStoryProps } from '../../toolbox.js';
+import * as smurfButton from './main.js';
 
-import './main.js';
+const _template = (props) =>  htmlFromStoryProps(smurfButton.TAGNAME, props);
 
 export default {
-  title: 'Atoms/Button/new',
+  component: smurfButton.TAGNAME,
+  argTypes: {}
 };
 
-export const Primary = () => html`<smurf-button primary></smurf-button>`;
+export const Playground = _template.bind({});
