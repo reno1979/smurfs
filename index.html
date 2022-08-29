@@ -245,15 +245,15 @@
             #smurf-base-colors {
                 display: grid;
                 grid-template-columns: repeat(6, 100px);
-                grid-template-rows: repeat(24, 40px);
+                grid-template-rows: repeat(24, minmax(40px, auto));
                 grid-gap: 4px
             }
 
-            .smurf-base-color-controls{
+            .smurf-controls{
                 grid-column-start: 2;
                 grid-column-end: 7;
             }
-            .smurf-base-color-controls fieldset{
+            .smurf-controls fieldset{
                 display: grid;
                 grid-template-columns: 1fr 1fr 1fr;
                 grid-template-rows: auto auto;
@@ -323,6 +323,28 @@
                 }
             }
 
+            function _generateCssVariables(){
+                
+                const _sCode = `
+                    --smurf-opacity-transparent: ${document.getElementById('smurf-opacity-transparent').value}%;
+                    --smurf-opacity-translucent: ${document.getElementById('smurf-opacity-translucent').value}%;
+
+                    --smurf-base-color-h: ${document.getElementById('smurf-base-hue').value};
+                    --smurf-base-color-s: ${document.getElementById('smurf-base-saturation').value}%;
+                    --smurf-base-color-l: ${document.getElementById('smurf-base-lightness').value}%;
+                    
+                    --smurf-secondary-color-h: ${document.getElementById('smurf-secondary-hue').value};
+                    --smurf-secondary-color-s: ${document.getElementById('smurf-secondary-saturation').value}%;
+                    --smurf-secondary-color-l: ${document.getElementById('smurf-secondary-lightness').value}%;
+                    
+                    --smurf-tertiary-color-h: ${document.getElementById('smurf-tertiary-hue').value};
+                    --smurf-tertiary-color-s: ${document.getElementById('smurf-tertiary-saturation').value}%;
+                    --smurf-tertiary-color-l: ${document.getElementById('smurf-tertiary-lightness').value}%;
+                    `;
+                
+                    document.querySelector('#smurf-css-variables-values code').innerText = _sCode;
+            }
+
             function _handleValueChange(event){
                 const _el = event.target;
                 if(_el.type !== 'range'){
@@ -336,6 +358,7 @@
                     _setNewCssVarValue(_el);
                 }
                 
+                _generateCssVariables();
             }
 
             const _debounced_handleValueChange = debounce(_handleValueChange, 250);
@@ -360,6 +383,7 @@
                 document.body.addEventListener('input', _debounced_handleValueChange);
 
                 _setCurrentValues();
+                _generateCssVariables();
 
             }, false);
         </script>
@@ -368,7 +392,7 @@
     <body>
         <div id="smurf-base-colors">
             
-            <div class="smurf-text"><label>base</label><input type="checkbox" value="base" name="smurf-hue-lock" class="smurf-checkbox-lock"></div>
+            <div class="smurf-text"><label>base</label><input title="lock this value" type="checkbox" value="base" name="smurf-hue-lock" class="smurf-checkbox-lock"></div>
             <div class="smurf-text">darker</div>
             <div class="smurf-text">dark</div>
             <div class="smurf-text">normal</div>
@@ -409,7 +433,7 @@
                 </fieldset>
             </div>
             
-            <div class="smurf-text">secondary <input type="checkbox" name="smurf-hue-lock" class="smurf-checkbox-lock"></div>
+            <div class="smurf-text">secondary <input title="lock this value" type="checkbox" name="smurf-hue-lock" class="smurf-checkbox-lock"></div>
             <div class="smurf-text">darker</div>
             <div class="smurf-text">dark</div>
             <div class="smurf-text">normal</div>
@@ -437,21 +461,20 @@
             <div class="smurf-color-block smurf-secondary-light-transparent"></div>
             <div class="smurf-color-block smurf-secondary-lighter-transparent"></div>
             
-            <div></div>
-            <div><label>hue</label><input id="smurf-secondary-hue" type="range" value="0" min="0" max="360" data-css-var="--smurf-secondary-color-h" data-css-var-units=""></div>
-            <div></div>
-            <div><label>saturation</label><input type="range" value="0" min="0" max="100" data-css-var="--smurf-secondary-color-s" data-css-var-units="%"></div>
-            <div></div>
-            <div><label>lightness</label><input type="range" value="0" min="0" max="100" data-css-var="--smurf-secondary-color-l" data-css-var-units="%"></div>
+            <div class="smurf-secondary-color-controls smurf-controls">
+                <fieldset>
+                    <legend>--smurf-secondary-color</legend>
+                    <label for="smurf-secondary-hue">hue</label>
+                    <label for="smurf-secondary-saturation">saturation</label>
+                    <label for="smurf-secondary-lightness">lightness</label>
+                    
+                    <input id="smurf-secondary-hue" type="range" value="0" min="0" max="360" data-css-var="--smurf-secondary-color-h" data-css-var-units="">
+                    <input id="smurf-secondary-saturation" type="range" value="0" min="0" max="100" data-css-var="--smurf-secondary-color-s" data-css-var-units="%">
+                    <input id="smurf-secondary-lightness" type="range" value="0" min="0" max="100" data-css-var="--smurf-secondary-color-l" data-css-var-units="%">
+                </fieldset>
+            </div>
             
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-
-            <div class="smurf-text">tertiary <input type="checkbox" name="smurf-hue-lock" class="smurf-checkbox-lock"></div>
+            <div class="smurf-text">tertiary <input title="lock this value" type="checkbox" name="smurf-hue-lock" class="smurf-checkbox-lock"></div>
             <div class="smurf-text">darker</div>
             <div class="smurf-text">dark</div>
             <div class="smurf-text">normal</div>
@@ -479,19 +502,18 @@
             <div class="smurf-color-block smurf-tertiary-light-transparent"></div>
             <div class="smurf-color-block smurf-tertiary-lighter-transparent"></div>
 
-            <div></div>
-            <div><label>hue</label><input id="smurf-tertiary-hue" type="range" value="0" min="0" max="360" data-css-var="--smurf-tertiary-color-h" data-css-var-units=""></div>
-            <div></div>
-            <div><label>saturation</label><input type="range" value="0" min="0" max="100" data-css-var="--smurf-tertiary-color-s" data-css-var-units="%"></div>
-            <div></div>
-            <div><label>lightness</label><input type="range" value="0" min="0" max="100" data-css-var="--smurf-tertiary-color-l" data-css-var-units="%"></div>
-            
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <div class="smurf-tertiary-color-controls smurf-controls">
+                <fieldset>
+                    <legend>--smurf-tertiary-color</legend>
+                    <label for="smurf-tertiary-hue">hue</label>
+                    <label for="smurf-tertiary-saturation">saturation</label>
+                    <label for="smurf-tertiary-lightness">lightness</label>
+                    
+                    <input id="smurf-tertiary-hue" type="range" value="0" min="0" max="360" data-css-var="--smurf-tertiary-color-h" data-css-var-units="">
+                    <input id="smurf-tertiary-saturation" type="range" value="0" min="0" max="100" data-css-var="--smurf-tertiary-color-s" data-css-var-units="%">
+                    <input id="smurf-tertiary-lightness" type="range" value="0" min="0" max="100" data-css-var="--smurf-tertiary-color-l" data-css-var-units="%">
+                </fieldset>
+            </div>
         </div>  
 
         <div id="smurf-additionals">
@@ -501,11 +523,21 @@
                     <legend>Opacity</legend>
                     <label for="smurf-opacity-translucent">translucent</label>
                     <input id="smurf-opacity-translucent" type="range" value="0" min="0" max="100" data-css-var="--smurf-opacity-translucent" data-css-var-units="%">
-                    <label for="smurf-opacity-transparant">transparent</label>
-                    <input id="--smurf-opacity-transparent" type="range" value="0" min="0" max="100" data-css-var="--smurf-opacity-transparent" data-css-var-units="%">
+                    <label for="smurf-opacity-transparent">transparent</label>
+                    <input id="smurf-opacity-transparent" type="range" value="0" min="0" max="100" data-css-var="--smurf-opacity-transparent" data-css-var-units="%">
                 </fieldset>
             </div>
+
+            <div id="smurf-css-variables-values">
+                <h2>Smurf CSS variables</h2>
+                <code>
+                    --smurf-opacity-transparent: 15%;
+                </code>
+    
+            </div>
         </div>
+
+        
 
     </body>
 </html>
