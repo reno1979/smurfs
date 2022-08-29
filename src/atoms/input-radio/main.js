@@ -23,6 +23,10 @@ const _DEFAULT_SETTINGS = {
 export { TAGNAME } from './main.config.js';
  /**
   * The class for the Smurfic button
+  * @type {HTMLElement}
+  * @public
+  * 
+  * @tagname smurf-radio
   */
 export class MyClass extends SUPERCLASS {
     

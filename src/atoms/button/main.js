@@ -3,7 +3,7 @@
  * @fileoverview
  */
 
-import { defineCustomElement} from '../../toolbox.js';
+import { defineCustomElement } from '../../toolbox.js';
 import TEMPLATE from './main.template.js';
 import STYLESHEET from './main.style.js';
 import * as config from './main.config.js';
@@ -14,7 +14,7 @@ import * as config from './main.config.js';
  * @type {SMURF_BASE_SETTINGS & SMURF_INPUT_SETTINGS}
  * @private
  */
- const _DEFAULT_PROPS = {
+const _DEFAULT_PROPS = {
     template: TEMPLATE, 
     anchor: undefined,
     adoptedStyleSheets: STYLESHEET

@@ -13,18 +13,18 @@
   "license": "MIT",
   "customElements": "custom-elements.json",
   "devDependencies": {
-    "@babel/core": "^7.17.7",
-    "@custom-elements-manifest/analyzer": "^0.5.7",
-    "@storybook/addon-actions": "^6.4.19",
-    "@storybook/addon-essentials": "^6.4.19",
-    "@storybook/addon-links": "^6.4.19",
-    "@storybook/web-components": "^6.4.19",
+    "@babel/core": "^7.18.2",
+    "@custom-elements-manifest/analyzer": "^0.6.3",
+    "@storybook/addon-actions": "^6.5.6",
+    "@storybook/addon-essentials": "^6.5.6",
+    "@storybook/addon-links": "^6.5.6",
+    "@storybook/web-components": "^6.5.6",
     "babel-loader": "^8.2.3",
-    "storybook": "^6.4.19"
+    "storybook": "^6.5.6"
   },
   "dependencies": {
     "construct-style-sheets-polyfill": "^3.1.0",
-    "plop": "^3.0.5",
+    "plop": "^3.1.0",
     "save-dev": "^0.0.1-security"
   }
 }
